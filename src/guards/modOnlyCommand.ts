@@ -8,5 +8,4 @@ export const permissions: ApplicationCommandPermissionData[] =
     config.guild.ownerRole,
     config.guild.adminRole,
     config.guild.moderatorRole,
-    config.guild.helperRole,
   ]);
