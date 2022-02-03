@@ -12,6 +12,8 @@ import * as purgefrom from './admin/purgefrom';
 import * as purgefromContext from './admin/purgefromContext';
 import * as purgebetween from './admin/purgebetween';
 
+import * as minesweeper from './fun/minesweeper';
+
 interface CommandData {
   meta: SlashCommandBuilder | ContextMenuCommandBuilder;
   handler: (ctx: CommandContext<any>) => void | Promise<void>;
@@ -24,6 +26,8 @@ const commands: CommandData[] = [
   purgefrom,
   purgefromContext,
   purgebetween,
+
+  minesweeper,
 ];
 
 export default commands;

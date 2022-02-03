@@ -25,6 +25,7 @@
     "@discordjs/rest": "^0.2.0-canary.0",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.1",
+    "discord.js-minesweeper": "^1.1.0",
     "dotenv": "^10.0.0",
     "node-fetch": "2",
     "node-nakiri": "^0.1.4"
