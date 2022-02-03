@@ -41,6 +41,9 @@ yarn build
 yarn start
 ```
 
+## Note
+joe is a manslut
+
 ## License
 
 MIT.
