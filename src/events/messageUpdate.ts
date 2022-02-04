@@ -10,6 +10,10 @@ const handler = async (
   before: MessageLike,
   after: MessageLike,
 ) => {
+  if (before.author?.bot) {
+    return;
+  }
+
   if (before.content === after.content) {
     return;
   }

@@ -25,23 +25,23 @@ vim .env
 3. Install dependencies
 
 ```sh
-npm i -g yarn
-yarn
+npm i
 ```
 
 4. Build the bot
 
 ```sh
-yarn build
+npm run build
 ```
 
 5. Run the bot
 
 ```sh
-yarn start
+npm run start
 ```
 
 ## Note
+
 joe is a manslut
 
 ## License

@@ -4,6 +4,8 @@ import { Client as Discord, Intents, Message, TextChannel } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
+import DisTube from 'distube';
+
 import { Client as Nakiri } from 'node-nakiri';
 
 import CommandHandler from './commands';
@@ -19,12 +21,19 @@ import onReady from '../events/ready';
 import onNakiriAnalysis from '../events/nakiri/analysis';
 import onNakiriError from '../events/nakiri/error';
 
+import onPlaySong from '../events/music/playSong';
+import onAddSong from '../events/music/addSong';
+import onMusicError from '../events/music/error';
+import onSearchResult from '../events/music/searchResult';
+import onSearchCancel from '../events/music/searchCancel';
+
 class Client {
   private client: Discord;
   private rest: REST;
   private commandHandler: CommandHandler;
 
   public nakiri?: Nakiri;
+  public distube: DisTube;
 
   public logger?: Logger;
 
@@ -34,8 +43,21 @@ class Client {
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_VOICE_STATES,
       ],
     });
+
+    this.distube = new DisTube(this.client, {
+      searchSongs: 1,
+      emitNewSongOnly: true,
+      leaveOnFinish: true,
+    });
+
+    this.distube.on('playSong', onPlaySong);
+    this.distube.on('addSong', onAddSong);
+    this.distube.on('error', onMusicError);
+    this.distube.on('searchResult', onSearchResult);
+    this.distube.on('searchCancel', onSearchCancel);
 
     this.logger = new Logger(this.client);
 
