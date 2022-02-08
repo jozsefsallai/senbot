@@ -9,7 +9,7 @@ const handler = async (client: Client, error: GatewayError) => {
   embed.setTitle('Nakiri Error');
   embed.setColor(EMBED_RED);
   embed.setTimestamp();
-  embed.addField('Error', error.message);
+  embed.addField('Error', `${error}`);
 
   client.logger?.logEvent({ embeds: [embed] });
 };
