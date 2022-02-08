@@ -17,6 +17,15 @@ import * as nakiri from './admin/nakiri';
 
 import * as minesweeper from './fun/minesweeper';
 
+import * as play from './music/play';
+import * as queue from './music/queue';
+import * as voteskip from './music/voteskip';
+import * as votestop from './music/votestop';
+import * as skip from './music/skip';
+import * as stop from './music/stop';
+import * as repeat from './music/repeat';
+import * as volume from './music/volume';
+
 interface CommandData {
   meta:
     | SlashCommandBuilder
@@ -36,6 +45,15 @@ const commands: CommandData[] = [
   nakiri,
 
   minesweeper,
+
+  play,
+  queue,
+  voteskip,
+  votestop,
+  skip,
+  stop,
+  repeat,
+  volume,
 ];
 
 export default commands;
