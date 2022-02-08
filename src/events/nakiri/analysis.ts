@@ -79,7 +79,7 @@ const handler = async (client: Client, data: AnalysisNotification) => {
       })
       .join('\n');
 
-    if (maxPhraseSimilarity && maxPhraseSimilarity >= 0.5) {
+    if (maxPhraseSimilarity && maxPhraseSimilarity >= 0.75) {
       embed.addField('Matched and Filtered Phrases', phrases);
       shouldDelete = true;
     } else {
