@@ -1,8 +1,14 @@
 import { Message, PartialMessage } from 'discord.js';
+import config from '../config';
 import Client from '../core/client';
 
 const handler = async (client: Client, message: Message | PartialMessage) => {
   if (!message.content) {
+    return;
+  }
+
+  const exceptionChannels = config.nakiri?.analysisExceptionChannels ?? [];
+  if (exceptionChannels.includes(message.channelId)) {
     return;
   }
 

@@ -4,6 +4,21 @@ import Client from '../../core/client';
 import { EMBED_RED } from '../../core/constants';
 import { addLongEmbedField } from '../../utils/embedFields';
 
+import * as path from 'path';
+import * as fs from 'fs';
+import { binarySearch } from '../../utils/binarySearch';
+
+const DICTIONARY_PATH = path.join(
+  __dirname,
+  '../../..',
+  'assets',
+  'words_alpha.txt',
+);
+const dictionary = fs
+  .readFileSync(DICTIONARY_PATH, 'utf8')
+  .split('\n')
+  .filter((e) => e.length > 0);
+
 const handler = async (client: Client, data: AnalysisNotification) => {
   if (!data.results.problematic) {
     return;
@@ -75,13 +90,18 @@ const handler = async (client: Client, data: AnalysisNotification) => {
     const phrases = problematicPhrases
       .sort((a, b) => b.severity - a.severity)
       .map((similarityMap) => {
-        return `${similarityMap.phrase} (${similarityMap.similarity * 100}%)`;
+        return `${similarityMap.phrase} (${similarityMap.word} ${
+          similarityMap.similarity * 100
+        }%)`;
       })
       .join('\n');
 
-    if (maxPhraseSimilarity && maxPhraseSimilarity >= 0.75) {
+    if (maxPhraseSimilarity && maxPhraseSimilarity >= 0.5) {
+      const maxPhrase = problematicPhrases.find(
+        (e) => e.similarity === maxPhraseSimilarity,
+      );
       embed.addField('Matched and Filtered Phrases', phrases);
-      shouldDelete = true;
+      shouldDelete = !!maxPhrase && !binarySearch(dictionary, maxPhrase.word);
     } else {
       embed.addField('Matched Phrases', phrases);
     }

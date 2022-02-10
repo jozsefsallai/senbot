@@ -18,6 +18,7 @@ export interface NakiriConfig {
   apiUrl: string;
   apiKey: string;
   group: string;
+  analysisExceptionChannels?: string[];
 }
 
 export interface IConfig {

@@ -111,8 +111,12 @@ class Client {
       });
 
       this.nakiri.on('error', (error) => onNakiriError(this, error));
+
       this.nakiri.on('ready', () => {
         console.log('Started Nakiri client.');
+      });
+      this.nakiri.on('reconnect', () => {
+        console.log('Reconnected to Nakiri Gateway.');
       });
 
       this.nakiri.on('analysis', (data) => onNakiriAnalysis(this, data));

@@ -45,6 +45,10 @@ if (process.env.NAKIRIAPI_KEY) {
       apiUrl: process.env.NAKIRIAPI_URL ?? 'https://nakiri.one/api',
       apiKey: process.env.NAKIRIAPI_KEY,
       group: process.env.NAKIRIAPI_GROUP,
+      analysisExceptionChannels:
+        process.env.NAKIRIAPI_ANALYSIS_EXCEPTION_CHANNELS?.split(',')?.map(
+          (channel) => channel.trim(),
+        ),
     };
   } else {
     console.warn(

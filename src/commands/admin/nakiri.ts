@@ -229,7 +229,7 @@ const phraseHandler = async (ctx: CommandContext<CommandInteraction>) => {
   const { global, guild, severity } = getCommonOptions(ctx);
 
   const req: NakiriHTTPAddPhraseEntryRequest = {
-    phrase: phrase!,
+    content: phrase!,
     severity,
   };
 
