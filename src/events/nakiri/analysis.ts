@@ -101,7 +101,8 @@ const handler = async (client: Client, data: AnalysisNotification) => {
         (e) => e.similarity === maxPhraseSimilarity,
       );
       embed.addField('Matched and Filtered Phrases', phrases);
-      shouldDelete = !!maxPhrase && !binarySearch(dictionary, maxPhrase.word);
+      shouldDelete =
+        !!maxPhrase && !binarySearch(dictionary, maxPhrase.word.toLowerCase());
     } else {
       embed.addField('Matched Phrases', phrases);
     }
