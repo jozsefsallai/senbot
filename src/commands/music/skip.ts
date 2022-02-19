@@ -4,8 +4,7 @@ import { CommandContext } from '../../core/commands';
 
 export const meta = new SlashCommandBuilder()
   .setName('skip')
-  .setDescription('Skip a song in the current queue.')
-  .setDefaultPermission(false);
+  .setDescription('Skip a song in the current queue.');
 
 export { permissions } from '../../guards/staffOnlyCommand';
 

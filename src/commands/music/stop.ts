@@ -4,8 +4,7 @@ import { CommandContext } from '../../core/commands';
 
 export const meta = new SlashCommandBuilder()
   .setName('stop')
-  .setDescription('Stop the current queue.')
-  .setDefaultPermission(false);
+  .setDescription('Stop the current queue.');
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
