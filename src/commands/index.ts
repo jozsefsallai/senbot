@@ -18,6 +18,8 @@ import * as nakiri from './admin/nakiri';
 import * as minesweeper from './fun/minesweeper';
 
 import * as play from './music/play';
+import * as pause from './music/pause';
+import * as resume from './music/resume';
 import * as queue from './music/queue';
 import * as voteskip from './music/voteskip';
 import * as votestop from './music/votestop';
@@ -47,6 +49,8 @@ const commands: CommandData[] = [
   minesweeper,
 
   play,
+  pause,
+  resume,
   queue,
   voteskip,
   votestop,
