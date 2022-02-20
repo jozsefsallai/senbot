@@ -30,34 +30,36 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
 
   await ctx.interaction.deferReply();
   const reply = await ctx.interaction.editReply(
-    `If this message reaches ${targetCount} :white_check_mark: reactions in ${time} seconds, I will skip the song.`,
+    `If this message reaches ${targetCount} ✅ reactions in ${time} seconds, I will skip the song.`,
   );
   await (reply as Message).react('✅');
 
-  const collector = (reply as Message).createReactionCollector({
-    time: time * 1000,
-    filter: (reaction) => reaction.emoji.name === '✅',
-  });
+  try {
+    await (reply as Message).awaitReactions({
+      filter: (reaction, user) => reaction.emoji.name === '✅' && !user.bot,
+      time: time * 1000,
+      max: targetCount,
+      errors: ['time'],
+    });
 
-  let enoughVotes = false;
-
-  collector.on('collect', async (reaction) => {
-    if (reaction.count >= targetCount) {
-      collector.stop();
-      enoughVotes = true;
-
-      const nextsong = await ctx.client.distube.skip(ctx.interaction.guildId!);
-      await ctx.interaction.editReply(
-        `Skipped! Now playing ${nextsong.name ?? 'Unknown'}`,
-      );
-    }
-  });
-
-  collector.on('end', async () => {
-    if (enoughVotes) {
+    const queue = await ctx.client.distube.getQueue(ctx.interaction.guildId!);
+    if (!queue) {
+      await ctx.interaction.editReply('There is no music playing right now.');
       return;
     }
 
+    if (queue.songs.length < 2) {
+      await ctx.interaction.editReply(
+        'This is the last song in the queue. Use `/votestop` instead.',
+      );
+      return;
+    }
+
+    const nextsong = await ctx.client.distube.skip(ctx.interaction.guildId!);
+    await ctx.interaction.editReply(
+      `Skipped! Now playing ${nextsong.name ?? 'Unknown'}`,
+    );
+  } catch (_) {
     await ctx.interaction.editReply('Not enough reactions, not skipping.');
-  });
+  }
 };

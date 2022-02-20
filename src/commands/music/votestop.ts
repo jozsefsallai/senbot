@@ -30,32 +30,27 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
 
   await ctx.interaction.deferReply();
   const reply = await ctx.interaction.editReply(
-    `If this message reaches ${targetCount} :white_check_mark: reactions in ${time} seconds, I will stop the playback.`,
+    `If this message reaches ${targetCount} ✅ reactions in ${time} seconds, I will stop the playback.`,
   );
   await (reply as Message).react('✅');
 
-  const collector = (reply as Message).createReactionCollector({
-    time: time * 1000,
-    filter: (reaction) => reaction.emoji.name === '✅',
-  });
+  try {
+    await (reply as Message).awaitReactions({
+      filter: (reaction, user) => reaction.emoji.name === '✅' && !user.bot,
+      time: time * 1000,
+      max: targetCount,
+      errors: ['time'],
+    });
 
-  let enoughVotes = false;
-
-  collector.on('collect', async (reaction) => {
-    if (reaction.count >= targetCount) {
-      collector.stop();
-      enoughVotes = true;
-
-      await ctx.client.distube.stop(ctx.interaction.guildId!);
-      await ctx.interaction.editReply('Playback stopped.');
-    }
-  });
-
-  collector.on('end', async () => {
-    if (enoughVotes) {
+    const queue = await ctx.client.distube.getQueue(ctx.interaction.guildId!);
+    if (!queue) {
+      await ctx.interaction.editReply('There is no music playing right now.');
       return;
     }
 
+    await ctx.client.distube.stop(ctx.interaction.guildId!);
+    await ctx.interaction.editReply('Playback stopped.');
+  } catch (_) {
     await ctx.interaction.editReply('Not enough reactions, not stopping.');
-  });
+  }
 };
