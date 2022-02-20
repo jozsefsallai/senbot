@@ -12,6 +12,7 @@ const handler = async (client: Client, error: GatewayError) => {
   embed.addField('Error', `${error}`);
 
   client.logger?.logEvent({ embeds: [embed] });
+  client.reportToSentry(error);
 };
 
 export default handler;

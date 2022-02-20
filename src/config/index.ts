@@ -57,4 +57,10 @@ if (process.env.NAKIRIAPI_KEY) {
   }
 }
 
+if (process.env.SENTRY_DSN) {
+  config.sentry = {
+    dsn: process.env.SENTRY_DSN,
+  };
+}
+
 export default config;

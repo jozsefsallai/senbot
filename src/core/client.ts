@@ -27,6 +27,8 @@ import onMusicError from '../events/music/error';
 import onSearchResult from '../events/music/searchResult';
 import onSearchCancel from '../events/music/searchCancel';
 
+import * as Sentry from '@sentry/node';
+
 class Client {
   private client: Discord;
   private rest: REST;
@@ -56,7 +58,9 @@ class Client {
 
     this.distube.on('playSong', onPlaySong);
     this.distube.on('addSong', onAddSong);
-    this.distube.on('error', onMusicError);
+    this.distube.on('error', (channel, error) =>
+      onMusicError(this, channel, error),
+    );
     this.distube.on('searchResult', onSearchResult);
     this.distube.on('searchCancel', onSearchCancel);
 
@@ -103,6 +107,8 @@ class Client {
 
     this.client.on('messageCreate', (message) => onMessage(this, message));
 
+    this.client.on('error', this.reportToSentry.bind(this));
+
     this.client.on('ready', () => onReady(this));
 
     if (config.nakiri) {
@@ -121,6 +127,12 @@ class Client {
       });
 
       this.nakiri.on('analysis', (data) => onNakiriAnalysis(this, data));
+    }
+
+    if (config.sentry) {
+      Sentry.init({
+        dsn: config.sentry.dsn,
+      });
     }
   }
 
@@ -223,6 +235,14 @@ class Client {
     }
 
     return (channel as TextChannel).messages.fetch(messageId);
+  }
+
+  public reportToSentry(ex: any) {
+    if (!config.sentry) {
+      return;
+    }
+
+    Sentry.captureException(ex);
   }
 }
 

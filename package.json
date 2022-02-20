@@ -25,6 +25,8 @@
     "@discordjs/opus": "^0.7.0",
     "@discordjs/rest": "^0.2.0-canary.0",
     "@discordjs/voice": "^0.8.0",
+    "@sentry/node": "^6.17.9",
+    "@sentry/tracing": "^6.17.9",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.1",
     "discord.js-minesweeper": "^1.1.0",

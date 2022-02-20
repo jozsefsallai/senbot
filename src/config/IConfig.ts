@@ -21,8 +21,13 @@ export interface NakiriConfig {
   analysisExceptionChannels?: string[];
 }
 
+export interface SentryConfig {
+  dsn: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
   nakiri?: NakiriConfig;
+  sentry?: SentryConfig;
 }
