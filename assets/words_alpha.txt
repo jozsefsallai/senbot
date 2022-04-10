@@ -208559,7 +208559,9 @@ ny
 nyala
 nyalas
 nyamwezi
+nyan
 nyanja
+nyanners
 nyanza
 nyas
 nyaya
@@ -239329,6 +239331,7 @@ pogamoggan
 pogey
 pogeys
 pogge
+poggers
 poggies
 poggy
 pogies
