@@ -21,11 +21,11 @@ import onReady from '../events/ready';
 import onNakiriAnalysis from '../events/nakiri/analysis';
 import onNakiriError from '../events/nakiri/error';
 
-import onPlaySong from '../events/music/playSong';
-import onAddSong from '../events/music/addSong';
-import onMusicError from '../events/music/error';
-import onSearchResult from '../events/music/searchResult';
-import onSearchCancel from '../events/music/searchCancel';
+// import onPlaySong from '../events/music/playSong';
+// import onAddSong from '../events/music/addSong';
+// import onMusicError from '../events/music/error';
+// import onSearchResult from '../events/music/searchResult';
+// import onSearchCancel from '../events/music/searchCancel';
 
 import * as Sentry from '@sentry/node';
 
@@ -56,13 +56,13 @@ class Client {
       leaveOnFinish: true,
     });
 
-    this.distube.on('playSong', onPlaySong);
-    this.distube.on('addSong', onAddSong);
-    this.distube.on('error', (channel, error) =>
-      onMusicError(this, channel, error),
-    );
-    this.distube.on('searchResult', onSearchResult);
-    this.distube.on('searchCancel', onSearchCancel);
+    // this.distube.on('playSong', onPlaySong);
+    // this.distube.on('addSong', onAddSong);
+    // this.distube.on('error', (channel, error) =>
+    //   onMusicError(this, channel, error),
+    // );
+    // this.distube.on('searchResult', onSearchResult);
+    // this.distube.on('searchCancel', onSearchCancel);
 
     this.logger = new Logger(this.client);
 

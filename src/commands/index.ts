@@ -17,16 +17,16 @@ import * as nakiri from './admin/nakiri';
 
 import * as minesweeper from './fun/minesweeper';
 
-import * as play from './music/play';
-import * as pause from './music/pause';
-import * as resume from './music/resume';
-import * as queue from './music/queue';
-import * as voteskip from './music/voteskip';
-import * as votestop from './music/votestop';
-import * as skip from './music/skip';
-import * as stop from './music/stop';
-import * as repeat from './music/repeat';
-import * as volume from './music/volume';
+// import * as play from './music/play';
+// import * as pause from './music/pause';
+// import * as resume from './music/resume';
+// import * as queue from './music/queue';
+// import * as voteskip from './music/voteskip';
+// import * as votestop from './music/votestop';
+// import * as skip from './music/skip';
+// import * as stop from './music/stop';
+// import * as repeat from './music/repeat';
+// import * as volume from './music/volume';
 
 interface CommandData {
   meta:
@@ -48,16 +48,16 @@ const commands: CommandData[] = [
 
   minesweeper,
 
-  play,
-  pause,
-  resume,
-  queue,
-  voteskip,
-  votestop,
-  skip,
-  stop,
-  repeat,
-  volume,
+  // play,
+  // pause,
+  // resume,
+  // queue,
+  // voteskip,
+  // votestop,
+  // skip,
+  // stop,
+  // repeat,
+  // volume,
 ];
 
 export default commands;

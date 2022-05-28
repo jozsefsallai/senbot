@@ -1,6 +1,7 @@
 import { Message, MessageEmbed, PartialMessage } from 'discord.js';
 import Client from '../core/client';
 import { EMBED_LIGHT_BLUE } from '../core/constants';
+import analyzeMessage from '../utils/analyzeMessage';
 import { addLongEmbedField } from '../utils/embedFields';
 
 type MessageLike = Message<boolean> | PartialMessage;
@@ -31,6 +32,8 @@ const handler = async (
   addLongEmbedField(embed, 'After', after.content);
 
   await client.logger?.logEvent({ embeds: [embed] });
+
+  await analyzeMessage(client, after);
 };
 
 export default handler;
