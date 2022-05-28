@@ -25,6 +25,7 @@ const config: IConfig = {
   bot: {
     token: process.env.BOT_TOKEN!,
     clientId: process.env.CLIENT_ID!,
+    activity: process.env.BOT_ACTIVITY ?? 'with bubbles in a bath',
   },
 
   guild: {

@@ -12,6 +12,7 @@ export interface GuildConfig {
 export interface BotConfig {
   token: string;
   clientId: string;
+  activity: string;
 }
 
 export interface NakiriConfig {
