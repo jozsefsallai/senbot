@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, TextChannel, ThreadChannel } from 'discord.js';
 
-import { CommandContext } from '../../core/commands';
+import { CommandContext } from '../../core/handler/CommandHandler';
 
 export const meta = new SlashCommandBuilder()
   .setName('purge')

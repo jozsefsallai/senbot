@@ -2,11 +2,13 @@ export interface GuildConfig {
   guildId: string;
   logChannelId?: string;
   joinChannelId?: string;
+  membershipReviewChannelId: string;
 
   ownerRole: string;
   adminRole: string;
   moderatorRole: string;
   helperRole: string;
+  membersRole: string;
 }
 
 export interface BotConfig {

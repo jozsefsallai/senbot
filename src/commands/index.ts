@@ -4,7 +4,7 @@ import {
   SlashCommandSubcommandsOnlyBuilder,
   ContextMenuCommandBuilder,
 } from '@discordjs/builders';
-import { CommandContext } from '../core/commands';
+import { CommandContext } from '../core/handler/CommandHandler';
 
 import * as ping from './ping';
 
@@ -13,6 +13,7 @@ import * as purgefrom from './admin/purgefrom';
 import * as purgefromContext from './admin/purgefromContext';
 import * as purgebetween from './admin/purgebetween';
 import * as activity from './admin/activity';
+import * as onboardingmessage from './admin/onboardingMessage';
 
 import * as nakiri from './admin/nakiri';
 
@@ -46,6 +47,7 @@ const commands: CommandData[] = [
   purgefromContext,
   purgebetween,
   activity,
+  onboardingmessage,
 
   nakiri,
 

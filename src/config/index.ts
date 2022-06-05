@@ -9,10 +9,12 @@ const requiredEnvVars = [
   'BOT_TOKEN',
   'CLIENT_ID',
   'GUILD_ID',
+  'MEMBERSHIP_REVIEW_CHANNEL_ID',
   'OWNER_ROLE',
   'ADMIN_ROLE',
   'MODERATOR_ROLE',
   'HELPER_ROLE',
+  'MEMBERS_ROLE',
 ];
 
 requiredEnvVars.forEach((envVar) => {
@@ -32,11 +34,13 @@ const config: IConfig = {
     guildId: process.env.GUILD_ID!,
     logChannelId: process.env.LOG_CHANNEL_ID,
     joinChannelId: process.env.JOIN_CHANNEL_ID,
+    membershipReviewChannelId: process.env.MEMBERSHIP_REVIEW_CHANNEL_ID!,
 
     ownerRole: process.env.OWNER_ROLE!,
     adminRole: process.env.ADMIN_ROLE!,
     moderatorRole: process.env.MODERATOR_ROLE!,
     helperRole: process.env.HELPER_ROLE!,
+    membersRole: process.env.MEMBERS_ROLE!,
   },
 };
 

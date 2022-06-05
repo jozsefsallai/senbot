@@ -14,7 +14,7 @@ import {
 } from 'node-nakiri';
 import config from '../../config';
 
-import { CommandContext } from '../../core/commands';
+import { CommandContext } from '../../core/handler/CommandHandler';
 
 enum EntryTarget {
   GUILD,
@@ -25,22 +25,21 @@ enum EntryTarget {
 const targetOption: SlashCommandIntegerOption = new SlashCommandIntegerOption()
   .setName('target')
   .setDescription('The blacklist to which the entry will be added.')
-  .addChoice('Guild blacklist', EntryTarget.GUILD)
-  .addChoice('Group blacklist', EntryTarget.GROUP)
-  .addChoice(
-    'Global blacklist',
-    EntryTarget.GLOBAL,
-  ) as SlashCommandIntegerOption;
+  .addChoices({ name: 'Guild blacklist', value: EntryTarget.GUILD })
+  .addChoices({ name: 'Group blacklist', value: EntryTarget.GROUP })
+  .addChoices({ name: 'Global blacklist', value: EntryTarget.GLOBAL });
 
 const severityOption: SlashCommandIntegerOption =
   new SlashCommandIntegerOption()
     .setName('severity')
     .setDescription('Severity of the blacklisted item.')
-    .addChoice('Very low', Severity.VERY_LOW)
-    .addChoice('Low', Severity.LOW)
-    .addChoice('Medium', Severity.MEDIUM)
-    .addChoice('High', Severity.HIGH)
-    .addChoice('Very high', Severity.VERY_HIGH) as SlashCommandIntegerOption;
+    .addChoices(
+      { name: 'Very low', value: Severity.VERY_HIGH },
+      { name: 'Low', value: Severity.LOW },
+      { name: 'Medium', value: Severity.MEDIUM },
+      { name: 'High', value: Severity.HIGH },
+      { name: 'Very high', value: Severity.VERY_HIGH },
+    );
 
 export const meta = new SlashCommandBuilder()
   .setName('nakiri')

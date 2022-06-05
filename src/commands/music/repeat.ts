@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction, GuildMember } from 'discord.js';
 import { RepeatMode } from 'distube';
-import { CommandContext } from '../../core/commands';
+import { CommandContext } from '../../core/handler/CommandHandler';
 
 export const meta = new SlashCommandBuilder()
   .setName('repeat')
@@ -11,9 +11,11 @@ export const meta = new SlashCommandBuilder()
       .setName('mode')
       .setDescription('The repeat mode.')
       .setRequired(true)
-      .addChoice('Disabled', RepeatMode.DISABLED)
-      .addChoice('Repeat song', RepeatMode.SONG)
-      .addChoice('Repeat queue', RepeatMode.QUEUE),
+      .addChoices(
+        { name: 'Disabled', value: RepeatMode.DISABLED },
+        { name: 'Repeat song', value: RepeatMode.SONG },
+        { name: 'Repeat queue', value: RepeatMode.QUEUE },
+      ),
   ) as SlashCommandBuilder;
 
 export const handler = async (ctx: CommandContext<CommandInteraction>) => {

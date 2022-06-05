@@ -1,15 +1,27 @@
 import config from '../config';
 
-import { Client as Discord, Intents, Message, TextChannel } from 'discord.js';
+import {
+  AnyChannel,
+  Client as Discord,
+  GuildMember,
+  Intents,
+  Message,
+  TextChannel,
+} from 'discord.js';
 import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
 
 import DisTube from 'distube';
 
 import { Client as Nakiri } from 'node-nakiri';
 
-import CommandHandler from './commands';
+import CommandHandler from './handler/CommandHandler';
+import ButtonHandler from './handler/ButtonHandler';
+import ModalHandler from './handler/ModalHandler';
+
 import commands from '../commands';
+import buttons from '../buttons';
+import modals from '../modals';
+
 import Logger from '../logger/Logger';
 
 import onMessageUpdate from '../events/messageUpdate';
@@ -28,11 +40,15 @@ import onNakiriError from '../events/nakiri/error';
 // import onSearchCancel from '../events/music/searchCancel';
 
 import * as Sentry from '@sentry/node';
+import { Routes } from 'discord-api-types/v10';
 
 class Client {
   private client: Discord;
   private rest: REST;
+
   private commandHandler: CommandHandler;
+  private buttonHandler: ButtonHandler;
+  private modalHandler: ModalHandler;
 
   public nakiri?: Nakiri;
   public distube: DisTube;
@@ -73,16 +89,39 @@ class Client {
     this.rest.setToken(config.bot.token);
 
     this.commandHandler = new CommandHandler();
+    this.buttonHandler = new ButtonHandler();
+    this.modalHandler = new ModalHandler();
 
     this.client.on('interactionCreate', async (interaction) => {
-      if (!interaction.isCommand() && !interaction.isContextMenu()) {
-        return;
+      if (interaction.isCommand() || interaction.isContextMenu()) {
+        await this.commandHandler.emit(interaction.commandName, {
+          interaction,
+          client: this,
+        });
       }
 
-      await this.commandHandler.emit(interaction.commandName, {
-        interaction,
-        client: this,
-      });
+      if (interaction.isButton() || interaction.isModalSubmit()) {
+        const idComponents = interaction.customId.split('_');
+        const id = idComponents[0];
+        const uniqueId =
+          idComponents.length > 1 ? idComponents.slice(1).join('_') : undefined;
+
+        if (interaction.isButton()) {
+          await this.buttonHandler.emit(id, {
+            interaction,
+            client: this,
+            uniqueId,
+          });
+        }
+
+        if (interaction.isModalSubmit()) {
+          await this.modalHandler.emit(id, {
+            interaction,
+            client: this,
+            uniqueId,
+          });
+        }
+      }
     });
 
     this.client.on('messageUpdate', (before, after) =>
@@ -137,43 +176,46 @@ class Client {
   }
 
   async login() {
-    try {
-      console.log('Updating application commands...');
+    console.log('Updating application commands...');
 
-      await this.rest.put(
-        Routes.applicationGuildCommands(
-          config.bot.clientId,
-          config.guild.guildId,
-        ),
-        {
-          body: commands.map((command) => command.meta.toJSON()),
-        },
+    await this.rest.put(
+      Routes.applicationGuildCommands(
+        config.bot.clientId,
+        config.guild.guildId,
+      ),
+      {
+        body: commands.map((command) => command.meta.toJSON()),
+      },
+    );
+
+    commands.forEach((command) => {
+      this.commandHandler.on(command.meta.name, command.handler);
+      this.commandHandler.setPermissions(
+        command.meta.name,
+        command.permissions,
       );
+    });
 
-      commands.forEach((command) => {
-        this.commandHandler.on(command.meta.name, command.handler);
-        this.commandHandler.setPermissions(
-          command.meta.name,
-          command.permissions,
-        );
-      });
+    console.log('Application commands updated successfully.');
 
-      console.log('Application commands updated successfully.');
-    } catch (err) {
-      console.error(err);
-    }
+    console.log('Registering button handlers...');
+
+    buttons.forEach((button) => {
+      this.buttonHandler.on(button.meta.id, button.handler);
+    });
+
+    console.log('Button handlers registered successfully.');
+
+    console.log('Registering modal handlers...');
+
+    modals.forEach((modal) => {
+      this.modalHandler.on(modal.meta.id, modal.handler);
+    });
+
+    console.log('Modal handlers registered successfully.');
 
     await this.client.login(config.bot.token);
     console.log(`senbot started successfully as ${this.client.user?.tag}`);
-
-    console.log('Updating application command permissions...');
-
-    try {
-      await this.updateApplicationCommandPermissions();
-      console.log('Application command permissions updated successfully.');
-    } catch (err) {
-      console.error(err);
-    }
 
     if (this.nakiri) {
       console.log('Booting Nakiri client...');
@@ -183,21 +225,6 @@ class Client {
       } catch (err) {
         console.error(err);
       }
-    }
-  }
-
-  private async updateApplicationCommandPermissions() {
-    const registeredCommands = await this.client.guilds.cache
-      .get(config.guild.guildId)
-      ?.commands.fetch();
-
-    for await (const command of registeredCommands!.values()) {
-      const permissions = this.commandHandler.getPermissions(command.name);
-      if (!permissions) {
-        continue;
-      }
-
-      await command.permissions.set({ permissions });
     }
   }
 
@@ -235,6 +262,21 @@ class Client {
     }
 
     return (channel as TextChannel).messages.fetch(messageId);
+  }
+
+  public async getChannelWithId(channelId: string): Promise<AnyChannel | null> {
+    return this.client.channels.fetch(channelId);
+  }
+
+  public async getGuildMemberWithId(
+    userId: string,
+  ): Promise<GuildMember | null> {
+    const guild = await this.client.guilds.fetch(config.guild.guildId);
+    if (!guild) {
+      return null;
+    }
+
+    return guild.members.fetch(userId);
   }
 
   public reportToSentry(ex: any) {
