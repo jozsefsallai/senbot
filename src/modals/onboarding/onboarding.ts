@@ -50,6 +50,7 @@ export const handler = async (ctx: ModalContext) => {
     );
     embed.setColor(EMBED_LIGHT_BLUE);
 
+    embed.addField('Status', 'PENDING REVIEW');
     embed.addField(
       'Account creation date',
       ctx.interaction.user.createdAt.toUTCString(),

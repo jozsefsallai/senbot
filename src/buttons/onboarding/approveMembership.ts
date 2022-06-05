@@ -4,6 +4,7 @@ import config from '../../config';
 import { EMBED_GREEN } from '../../core/constants';
 import { ButtonContext } from '../../core/handler/ButtonHandler';
 import { STAFF_ONLY_ROLES } from '../../guards/staffOnlyCommand';
+import { editOnboardingEntry } from '../../utils/editOnboardingEntry';
 import { hasAnyRole } from '../../utils/hasAnyRole';
 
 export const meta = {
@@ -24,6 +25,13 @@ export const handler = async (ctx: ButtonContext) => {
   }
 
   const userId = ctx.uniqueId;
+
+  try {
+    await editOnboardingEntry(ctx.client, ctx.interaction.message.id);
+  } catch (err) {
+    // ignore
+  }
+
   const member = await ctx.client.getGuildMemberWithId(userId);
   if (!member) {
     await ctx.interaction.editReply(

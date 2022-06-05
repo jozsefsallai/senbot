@@ -9,6 +9,7 @@ import {
 import { EMBED_RED } from '../../core/constants';
 import { ModalContext } from '../../core/handler/ModalHandler';
 import { STAFF_ONLY_ROLES } from '../../guards/staffOnlyCommand';
+import { editOnboardingEntry } from '../../utils/editOnboardingEntry';
 import { hasAnyRole } from '../../utils/hasAnyRole';
 import { error } from '../../utils/serviceMessages';
 
@@ -37,6 +38,13 @@ export const handler = async (ctx: ModalContext) => {
   }
 
   const userId = ctx.uniqueId;
+
+  try {
+    await editOnboardingEntry(ctx.client, ctx.interaction.message!.id);
+  } catch (err) {
+    // ignore
+  }
+
   const member = await ctx.client.getGuildMemberWithId(userId);
   if (!member) {
     await ctx.interaction.editReply({
