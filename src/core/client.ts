@@ -276,7 +276,11 @@ class Client {
       return null;
     }
 
-    return guild.members.fetch(userId);
+    try {
+      return guild.members.fetch(userId);
+    } catch (err) {
+      return null;
+    }
   }
 
   public reportToSentry(ex: any) {
