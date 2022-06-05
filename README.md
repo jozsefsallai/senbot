@@ -25,7 +25,7 @@ vim .env
 3. Install dependencies
 
 ```sh
-npm i
+npm install
 ```
 
 4. Build the bot
