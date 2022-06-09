@@ -2,10 +2,19 @@ import { MessageEmbed, TextChannel } from 'discord.js';
 import config from '../config';
 import Client from '../core/client';
 
-export const editOnboardingEntry = async (
-  client: Client,
-  messageId: string,
-) => {
+export interface EditOnboardingEntryOpts {
+  client: Client;
+  messageId: string;
+  status?: string;
+  removeButtons?: boolean;
+}
+
+export const editOnboardingEntry = async ({
+  client,
+  messageId,
+  status = 'COMPLETE',
+  removeButtons = true,
+}: EditOnboardingEntryOpts) => {
   const channel = await client.getChannelWithId(
     config.guild.membershipReviewChannelId,
   );
@@ -28,7 +37,7 @@ export const editOnboardingEntry = async (
     const fields = embed.fields.slice(0);
 
     if (fields.length > 0) {
-      fields[0].value = 'COMPLETE';
+      fields[0].value = status;
     }
 
     embed.setFields(fields);
@@ -39,8 +48,10 @@ export const editOnboardingEntry = async (
     newEmbeds.push(embed);
   }
 
+  const components = removeButtons ? [] : message.components.slice(0);
+
   await message.edit({
     embeds: newEmbeds,
-    components: [],
+    components,
   });
 };

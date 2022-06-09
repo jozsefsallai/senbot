@@ -40,7 +40,10 @@ export const handler = async (ctx: ModalContext) => {
   const userId = ctx.uniqueId;
 
   try {
-    await editOnboardingEntry(ctx.client, ctx.interaction.message!.id);
+    await editOnboardingEntry({
+      client: ctx.client,
+      messageId: ctx.interaction.message!.id,
+    });
   } catch (err) {
     // ignore
   }

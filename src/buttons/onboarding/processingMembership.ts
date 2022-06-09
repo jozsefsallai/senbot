@@ -1,14 +1,12 @@
 import { GuildMember, MessageEmbed } from 'discord.js';
-
-import config from '../../config';
-import { EMBED_GREEN } from '../../core/constants';
+import { EMBED_ORANGE } from '../../core/constants';
 import { ButtonContext } from '../../core/handler/ButtonHandler';
 import { STAFF_ONLY_ROLES } from '../../guards/staffOnlyCommand';
 import { editOnboardingEntry } from '../../utils/editOnboardingEntry';
 import { hasAnyRole } from '../../utils/hasAnyRole';
 
 export const meta = {
-  id: 'approve-membership',
+  id: 'processing-membership',
 };
 
 export const handler = async (ctx: ButtonContext) => {
@@ -30,6 +28,8 @@ export const handler = async (ctx: ButtonContext) => {
     await editOnboardingEntry({
       client: ctx.client,
       messageId: ctx.interaction.message!.id,
+      status: 'PROCESSING',
+      removeButtons: false,
     });
   } catch (err) {
     // ignore
@@ -44,35 +44,17 @@ export const handler = async (ctx: ButtonContext) => {
   }
 
   try {
-    await member.roles.add(config.guild.membersRole);
-
     const embed = new MessageEmbed();
-    embed.setTitle('✅ User approved successfully.');
+    embed.setTitle('⏳ Asking additional questions...');
     embed.setDescription(
-      `User ${member.toString()} has been approved by ${ctx.interaction.user.toString()}.`,
+      `The request of user ${member.toString()} is being processed by ${ctx.interaction.user.toString()}. Waiting for additional information from the user.`,
     );
-    embed.setColor(EMBED_GREEN);
+    embed.setColor(EMBED_ORANGE);
 
     await ctx.interaction.editReply({ embeds: [embed] });
   } catch (err) {
     await ctx.interaction.editReply(
-      `Failed to update member:\n\`\`\`\n${err}\n\`\`\``,
+      `Failed to send status message:\n\`\`\`\n${err}\n\`\`\``,
     );
-  }
-
-  try {
-    const dm = await member.createDM();
-
-    const embed = new MessageEmbed();
-    embed.setTitle('✅ Membership approved!');
-    embed.setColor(EMBED_GREEN);
-
-    embed.setDescription(
-      'Good news! Your request to join the **Senzawa Fan Discord** has been approved by a moderator. Have a great time!',
-    );
-
-    await dm.send({ embeds: [embed] });
-  } catch (err) {
-    // ignore
   }
 };

@@ -44,20 +44,24 @@ export const handler = async (ctx: ModalContext) => {
 
     const embed = new MessageEmbed();
 
+    const { user } = ctx.interaction;
+
     embed.setTitle('New membership request');
     embed.setDescription(
-      `User ${ctx.interaction.user.toString()} has requested to join the server.`,
+      `User ${user.toString()} has requested to join the server.`,
     );
     embed.setColor(EMBED_LIGHT_BLUE);
 
     embed.addField('Status', 'PENDING REVIEW');
-    embed.addField(
-      'Account creation date',
-      ctx.interaction.user.createdAt.toUTCString(),
-    );
+    embed.addField('Account creation date', user.createdAt.toUTCString());
+    embed.addField('Tag', user.tag, true);
+    embed.addField('ID', userId, true);
+
     embed.addField('Introduction', firstAnswer);
     embed.addField('Referrer', secondAnswer);
     embed.addField('Consent', thirdAnswer);
+
+    embed.setThumbnail(user.displayAvatarURL());
 
     const approveButton = new MessageButton();
     approveButton
@@ -71,8 +75,14 @@ export const handler = async (ctx: ModalContext) => {
       .setLabel('Reject')
       .setStyle('DANGER');
 
+    const processingButton = new MessageButton();
+    processingButton
+      .setCustomId(`processing-membership_${userId}`)
+      .setLabel('Mark as processing')
+      .setStyle('PRIMARY');
+
     const componentRow = new MessageActionRow();
-    componentRow.addComponents(approveButton, rejectButton);
+    componentRow.addComponents(approveButton, rejectButton, processingButton);
 
     const channel = await ctx.client.getChannelWithId(
       config.guild.membershipReviewChannelId,
