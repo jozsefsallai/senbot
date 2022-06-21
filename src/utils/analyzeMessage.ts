@@ -23,6 +23,9 @@ const analyzeMessage = async (
       messageId: message.id,
       userId: message.author?.id,
     },
+    options: {
+      analyzePhrases: false,
+    },
   });
 };
 
