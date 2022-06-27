@@ -302,7 +302,7 @@ class Client {
     return Array.from(
       members
         .filter((member) =>
-          member.joinedTimestamp ? member.joinedTimestamp > timestamp : false,
+          member.joinedTimestamp ? member.joinedTimestamp >= timestamp : false,
         )
         .values(),
     );
