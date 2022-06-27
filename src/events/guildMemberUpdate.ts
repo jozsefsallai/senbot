@@ -2,7 +2,7 @@ import { GuildMember, MessageEmbed, PartialGuildMember } from 'discord.js';
 import Client from '../core/client';
 import { EMBED_LIGHT_BLUE } from '../core/constants';
 
-type MemberLike = GuildMember | PartialGuildMember;
+export type MemberLike = GuildMember | PartialGuildMember;
 
 const handler = async (
   client: Client,

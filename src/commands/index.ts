@@ -8,6 +8,7 @@ import { CommandContext } from '../core/handler/CommandHandler';
 
 import * as ping from './ping';
 
+import * as kicksince from './admin/kicksince';
 import * as purge from './admin/purge';
 import * as purgefrom from './admin/purgefrom';
 import * as purgefromContext from './admin/purgefromContext';
@@ -42,6 +43,7 @@ interface CommandData {
 const commands: CommandData[] = [
   ping,
 
+  kicksince,
   purge,
   purgefrom,
   purgefromContext,

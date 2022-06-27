@@ -4,7 +4,7 @@ import { EMBED_LIGHT_BLUE } from '../core/constants';
 import analyzeMessage from '../utils/analyzeMessage';
 import { addLongEmbedField } from '../utils/embedFields';
 
-type MessageLike = Message<boolean> | PartialMessage;
+export type MessageLike = Message<boolean> | PartialMessage;
 
 const handler = async (
   client: Client,

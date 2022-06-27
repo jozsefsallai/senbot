@@ -24,9 +24,9 @@ import modals from '../modals';
 
 import Logger from '../logger/Logger';
 
-import onMessageUpdate from '../events/messageUpdate';
+import onMessageUpdate, { MessageLike } from '../events/messageUpdate';
 import onMessageDelete from '../events/messageDelete';
-import onGuildMemberUpdate from '../events/guildMemberUpdate';
+import onGuildMemberUpdate, { MemberLike } from '../events/guildMemberUpdate';
 import onMessage from '../events/message';
 import onReady from '../events/ready';
 
@@ -125,7 +125,7 @@ class Client {
     });
 
     this.client.on('messageUpdate', (before, after) =>
-      onMessageUpdate(this, before, after),
+      onMessageUpdate(this, before as MessageLike, after as MessageLike),
     );
 
     this.client.on('messageDelete', (message) =>
@@ -133,7 +133,7 @@ class Client {
     );
 
     this.client.on('guildMemberUpdate', (before, after) =>
-      onGuildMemberUpdate(this, before, after),
+      onGuildMemberUpdate(this, before as MemberLike, after as MemberLike),
     );
 
     this.client.on('guildMemberAdd', async (member) => {
@@ -289,6 +289,23 @@ class Client {
     }
 
     Sentry.captureException(ex);
+  }
+
+  public async getGuildMembersAfter(timestamp: number): Promise<GuildMember[]> {
+    const guild = await this.client.guilds.fetch(config.guild.guildId);
+    if (!guild) {
+      return [];
+    }
+
+    const members = await guild.members.fetch();
+
+    return Array.from(
+      members
+        .filter((member) =>
+          member.joinedTimestamp ? member.joinedTimestamp > timestamp : false,
+        )
+        .values(),
+    );
   }
 }
 
