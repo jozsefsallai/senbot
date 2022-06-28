@@ -68,4 +68,18 @@ if (process.env.SENTRY_DSN) {
   };
 }
 
+if (
+  process.env.S3_BUCKET &&
+  process.env.S3_ENDPOINT &&
+  process.env.S3_ACCESS_KEY_ID &&
+  process.env.S3_SECRET_ACCESS_KEY
+) {
+  config.s3 = {
+    bucket: process.env.S3_BUCKET,
+    endpoint: process.env.S3_ENDPOINT,
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  };
+}
+
 export default config;

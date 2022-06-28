@@ -10,8 +10,6 @@ import {
 } from 'discord.js';
 import { REST } from '@discordjs/rest';
 
-import DisTube from 'distube';
-
 import { Client as Nakiri } from 'node-nakiri';
 
 import CommandHandler from './handler/CommandHandler';
@@ -33,14 +31,9 @@ import onReady from '../events/ready';
 import onNakiriAnalysis from '../events/nakiri/analysis';
 import onNakiriError from '../events/nakiri/error';
 
-// import onPlaySong from '../events/music/playSong';
-// import onAddSong from '../events/music/addSong';
-// import onMusicError from '../events/music/error';
-// import onSearchResult from '../events/music/searchResult';
-// import onSearchCancel from '../events/music/searchCancel';
-
 import * as Sentry from '@sentry/node';
 import { Routes } from 'discord-api-types/v10';
+import S3 from '../utils/s3';
 
 class Client {
   private client: Discord;
@@ -51,7 +44,7 @@ class Client {
   private modalHandler: ModalHandler;
 
   public nakiri?: Nakiri;
-  public distube: DisTube;
+  public s3?: S3;
 
   public logger?: Logger;
 
@@ -66,19 +59,9 @@ class Client {
       ],
     });
 
-    this.distube = new DisTube(this.client, {
-      searchSongs: 1,
-      emitNewSongOnly: true,
-      leaveOnFinish: true,
-    });
-
-    // this.distube.on('playSong', onPlaySong);
-    // this.distube.on('addSong', onAddSong);
-    // this.distube.on('error', (channel, error) =>
-    //   onMusicError(this, channel, error),
-    // );
-    // this.distube.on('searchResult', onSearchResult);
-    // this.distube.on('searchCancel', onSearchCancel);
+    if (config.s3) {
+      this.s3 = new S3(config.s3);
+    }
 
     this.logger = new Logger(this.client);
 

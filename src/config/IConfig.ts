@@ -28,9 +28,17 @@ export interface SentryConfig {
   dsn: string;
 }
 
+export interface S3Config {
+  bucket: string;
+  endpoint: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
   nakiri?: NakiriConfig;
   sentry?: SentryConfig;
+  s3?: S3Config;
 }
