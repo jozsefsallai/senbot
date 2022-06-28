@@ -44,6 +44,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       embeds: [embed],
     });
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     const errorEmbed = error('Something bad happened.');
     await ctx.interaction.editReply({
       embeds: [errorEmbed],

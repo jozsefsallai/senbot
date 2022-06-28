@@ -55,6 +55,8 @@ export const handler = async (ctx: ButtonContext) => {
 
     await ctx.interaction.editReply({ embeds: [embed] });
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     await ctx.interaction.editReply(
       `Failed to update member:\n\`\`\`\n${err}\n\`\`\``,
     );

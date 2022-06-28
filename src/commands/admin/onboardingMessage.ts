@@ -48,6 +48,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
 
     await ctx.interaction.editReply('Onboarding message sent successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.editReply(
       `Failed to send onboarding message:\n\`\`\`\n${err}\n\`\`\``,
     );

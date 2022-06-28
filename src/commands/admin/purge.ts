@@ -50,6 +50,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       `Successfully purged ${deletedCount} messages.`,
     );
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.editReply(
       `An error occurred while purging messages:\n\`\`\`\n${err}\n\`\`\``,
     );

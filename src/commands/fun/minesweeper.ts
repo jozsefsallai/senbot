@@ -64,6 +64,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     }\`), mines: \`${mines}\`\n\n${minesweeper.start()}`;
     await ctx.interaction.reply(output);
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     await ctx.interaction.reply({
       content: 'Failed to generate minesweeper field.',
       ephemeral: true,

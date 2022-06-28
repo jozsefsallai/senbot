@@ -23,6 +23,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.setPlayingStatus(text);
     await ctx.interaction.editReply('New activity set successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     await ctx.interaction.editReply(
       `Failed to set activity:\n\`\`\`\n${err}\n\`\`\``,
     );

@@ -51,6 +51,8 @@ const handler = async (
 
       return;
     } catch (err) {
+      client.reportToSentry(err);
+
       embed.addField(
         'Attachment Upload Failure',
         "This message had attachments, but I couldn't upload them...",

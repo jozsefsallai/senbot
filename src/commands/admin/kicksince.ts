@@ -70,6 +70,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       embeds: [successMessage],
     });
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     await ctx.interaction.editReply(
       `An error occurred while kicking users:\n\`\`\`\n${err}\n\`\`\``,
     );

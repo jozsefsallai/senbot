@@ -206,7 +206,7 @@ class Client {
       try {
         await this.nakiri.login(config.nakiri!.apiKey);
       } catch (err) {
-        console.error(err);
+        this.reportToSentry(err);
       }
     }
   }

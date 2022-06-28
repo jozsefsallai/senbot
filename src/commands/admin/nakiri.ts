@@ -150,6 +150,7 @@ const videoHandler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.nakiri!.addYouTubeVideo(req, opts);
     await ctx.interaction.reply('Video added successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.reply(`Failed to add video: \`${err}\``);
   }
 };
@@ -172,6 +173,7 @@ const channelHandler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.nakiri!.addYouTubeChannel(req, opts);
     await ctx.interaction.reply('Channel added successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.reply(`Failed to add channel: \`${err}\``);
   }
 };
@@ -194,6 +196,7 @@ const linkPatternHandler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.nakiri!.addLinkPattern(req, opts);
     await ctx.interaction.reply('Link pattern added successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.reply(`Failed to add link pattern: \`${err}\``);
   }
 };
@@ -219,6 +222,7 @@ const discordGuildHandler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.nakiri!.addDiscordGuild(req, opts);
     await ctx.interaction.reply('Discord guild added successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.reply(`Failed to add Discord guild: \`${err}\``);
   }
 };
@@ -241,6 +245,7 @@ const phraseHandler = async (ctx: CommandContext<CommandInteraction>) => {
     await ctx.client.nakiri!.addPhrase(req, opts);
     await ctx.interaction.reply('Phrase added successfully.');
   } catch (err) {
+    ctx.client.reportToSentry(err);
     await ctx.interaction.reply(`Failed to add phrase: \`${err}\``);
   }
 };
