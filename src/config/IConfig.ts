@@ -35,10 +35,16 @@ export interface S3Config {
   secretAccessKey: string;
 }
 
+export interface DanbooruConfig {
+  username: string;
+  apiKey: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
   nakiri?: NakiriConfig;
   sentry?: SentryConfig;
   s3?: S3Config;
+  danbooru?: DanbooruConfig;
 }

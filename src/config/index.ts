@@ -81,5 +81,11 @@ if (
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   };
 }
+if (process.env.DANBOORU_API_KEY && process.env.DANBOORU_USERNAME) {
+  config.danbooru = {
+    username: process.env.DANBOORU_USERNAME,
+    apiKey: process.env.DANBOORU_API_KEY,
+  };
+}
 
 export default config;
