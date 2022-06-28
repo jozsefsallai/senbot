@@ -40,7 +40,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     return;
   }
 
-  if (additionalTags && additionalTags.length > 3) {
+  if (additionalTags && additionalTags.split(' ').length > 3) {
     const errorEmbed = error('You can only specify up to 3 additional tags.');
     await ctx.interaction.editReply({
       embeds: [errorEmbed],
