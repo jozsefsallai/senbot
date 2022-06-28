@@ -77,7 +77,6 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     embed.setTitle("Here's a catgirl for you:");
 
     if (!plain) {
-      embed.addField('Tags', Danbooru.humanReadableTags(image.tag_string));
       embed.addField('Score', image.score.toString(), true);
       embed.addField('Favorite count', image.fav_count.toString(), true);
 
