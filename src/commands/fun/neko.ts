@@ -80,6 +80,10 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       embed.addField('Tags', Danbooru.humanReadableTags(image.tag_string));
       embed.addField('Score', image.score.toString(), true);
       embed.addField('Favorite count', image.fav_count.toString(), true);
+
+      if (image.source) {
+        embed.addField('Source', image.source);
+      }
     }
 
     embed.setColor(EMBED_LIGHT_BLUE);
