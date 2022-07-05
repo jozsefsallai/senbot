@@ -21,6 +21,7 @@ import * as nakiri from './admin/nakiri';
 import * as minesweeper from './fun/minesweeper';
 import * as inspire from './fun/inspire';
 import * as neko from './fun/neko';
+import * as sauce from './fun/sauce';
 
 interface CommandData {
   meta:
@@ -47,6 +48,7 @@ const commands: CommandData[] = [
   minesweeper,
   inspire,
   neko,
+  sauce,
 ];
 
 export default commands;

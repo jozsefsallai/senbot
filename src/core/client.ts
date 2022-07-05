@@ -35,6 +35,10 @@ import * as Sentry from '@sentry/node';
 import { Routes } from 'discord-api-types/v10';
 import S3 from '../utils/s3';
 
+import * as Sagiri from 'sagiri';
+import sagiriClient from 'sagiri';
+import { Readable } from 'stream';
+
 class Client {
   private client: Discord;
   private rest: REST;
@@ -45,6 +49,10 @@ class Client {
 
   public nakiri?: Nakiri;
   public s3?: S3;
+  public sagiri?: (
+    file: string | Buffer | Readable,
+    options?: Sagiri.Options,
+  ) => Promise<Sagiri.SagiriResult[]>;
 
   public logger?: Logger;
 
@@ -155,6 +163,10 @@ class Client {
       Sentry.init({
         dsn: config.sentry.dsn,
       });
+    }
+
+    if (config.saucenao) {
+      this.sagiri = sagiriClient(config.saucenao.apiKey);
     }
   }
 

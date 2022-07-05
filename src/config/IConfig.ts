@@ -40,6 +40,10 @@ export interface DanbooruConfig {
   apiKey: string;
 }
 
+export interface SaucenaoConfig {
+  apiKey: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
@@ -47,4 +51,5 @@ export interface IConfig {
   sentry?: SentryConfig;
   s3?: S3Config;
   danbooru?: DanbooruConfig;
+  saucenao?: SaucenaoConfig;
 }
