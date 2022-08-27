@@ -22,6 +22,7 @@ import * as minesweeper from './fun/minesweeper';
 import * as inspire from './fun/inspire';
 import * as neko from './fun/neko';
 import * as sauce from './fun/sauce';
+import * as craiyon from './fun/craiyon';
 
 interface CommandData {
   meta:
@@ -49,6 +50,7 @@ const commands: CommandData[] = [
   inspire,
   neko,
   sauce,
+  craiyon,
 ];
 
 export default commands;

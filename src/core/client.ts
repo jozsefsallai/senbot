@@ -34,6 +34,7 @@ import onNakiriError from '../events/nakiri/error';
 import * as Sentry from '@sentry/node';
 import { Routes } from 'discord-api-types/v10';
 import S3 from '../utils/s3';
+import Craiyon from '../utils/craiyon';
 
 import * as Sagiri from 'sagiri';
 import sagiriClient from 'sagiri';
@@ -53,6 +54,7 @@ class Client {
     file: string | Buffer | Readable,
     options?: Sagiri.Options,
   ) => Promise<Sagiri.SagiriResult[]>;
+  public craiyon: Craiyon;
 
   public logger?: Logger;
 
@@ -168,6 +170,8 @@ class Client {
     if (config.saucenao) {
       this.sagiri = sagiriClient(config.saucenao.apiKey);
     }
+
+    this.craiyon = new Craiyon();
   }
 
   async login() {
