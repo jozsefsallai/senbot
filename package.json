@@ -21,6 +21,9 @@
     "url": "https://github.com/jozsefsallai/senbot/issues"
   },
   "homepage": "https://github.com/jozsefsallai/senbot#readme",
+  "engines": {
+    "node": "16.13.1"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
     "@discordjs/rest": "^0.2.0-canary.0",
