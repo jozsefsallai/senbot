@@ -15,6 +15,7 @@ import * as purgefromContext from './admin/purgefromContext';
 import * as purgebetween from './admin/purgebetween';
 import * as activity from './admin/activity';
 import * as onboardingmessage from './admin/onboardingMessage';
+import * as say from './admin/say';
 
 import * as nakiri from './admin/nakiri';
 
@@ -43,6 +44,7 @@ const commands: CommandData[] = [
   purgebetween,
   activity,
   onboardingmessage,
+  say,
 
   nakiri,
 

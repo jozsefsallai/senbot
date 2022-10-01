@@ -32,7 +32,7 @@ import onNakiriAnalysis from '../events/nakiri/analysis';
 import onNakiriError from '../events/nakiri/error';
 
 import * as Sentry from '@sentry/node';
-import { Routes } from 'discord-api-types/v10';
+import { ActivityType, Routes } from 'discord-api-types/v10';
 import S3 from '../utils/s3';
 import Craiyon from '../utils/craiyon';
 
@@ -227,13 +227,18 @@ class Client {
     }
   }
 
-  public async setPlayingStatus(message: string) {
+  public async setPlayingStatus(
+    message: string,
+    type?: ActivityType,
+    url?: string,
+  ) {
     this.client.user?.setPresence({
       status: 'online',
       activities: [
         {
           name: message,
-          type: 'PLAYING',
+          type: type ?? (ActivityType.Playing as any),
+          url,
         },
       ],
     });
