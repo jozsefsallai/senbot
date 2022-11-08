@@ -31,6 +31,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       content: message,
     });
   } catch (err) {
+    ctx.client.reportToSentry(err);
+
     await ctx.interaction.channel!.send({
       content: `${ctx.interaction.user} Something went wrong while trying to generate your image. Prompt was: \`${prompt}\``,
     });

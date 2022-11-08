@@ -1,5 +1,6 @@
 import { Image } from 'canvas';
-import { Client, CraiyonOutput } from 'craiyon';
+import { Client } from 'craiyon';
+import sharp from 'sharp';
 import { buildCollage } from './collage';
 
 class Craiyon {
@@ -14,7 +15,12 @@ class Craiyon {
 
   public async generate(prompt: string): Promise<Buffer> {
     const data = await this.client.generate({ prompt });
-    const images = this.mapImages(data);
+    const images: Image[] = [];
+
+    for await (const imageData of data.images) {
+      const image = await this.preprocessImage(imageData.asBuffer());
+      images.push(image);
+    }
 
     const canvas = await buildCollage(
       images,
@@ -30,15 +36,20 @@ class Craiyon {
     return buffer;
   }
 
-  private mapImages(data: CraiyonOutput): Image[] {
-    return data.images.map((img) => {
-      const image = new Image();
-      image.src = img.asBuffer();
-      image.width = Craiyon.CRAIYON_IMAGE_WIDTH;
-      image.height = Craiyon.CRAIYON_IMAGE_HEIGHT;
+  private async resizeAndConvertToPNGBuffer(buffer: Buffer): Promise<Buffer> {
+    return sharp(buffer)
+      .resize(Craiyon.CRAIYON_IMAGE_WIDTH, Craiyon.CRAIYON_IMAGE_HEIGHT)
+      .toFormat('png')
+      .toBuffer();
+  }
 
-      return image;
-    });
+  private async preprocessImage(buffer: Buffer): Promise<Image> {
+    const image = new Image();
+    image.src = await this.resizeAndConvertToPNGBuffer(buffer);
+    image.width = Craiyon.CRAIYON_IMAGE_WIDTH;
+    image.height = Craiyon.CRAIYON_IMAGE_HEIGHT;
+
+    return image;
   }
 }
 
