@@ -24,6 +24,7 @@ import * as inspire from './fun/inspire';
 import * as neko from './fun/neko';
 import * as sauce from './fun/sauce';
 import * as craiyon from './fun/craiyon';
+import * as stablediffusion from './fun/stablediffusion';
 
 interface CommandData {
   meta:
@@ -53,6 +54,7 @@ const commands: CommandData[] = [
   neko,
   sauce,
   craiyon,
+  stablediffusion,
 ];
 
 export default commands;

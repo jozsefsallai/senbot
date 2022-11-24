@@ -38,6 +38,9 @@ import Craiyon from '../utils/craiyon';
 
 import * as Sagiri from 'sagiri';
 import sagiriClient from 'sagiri';
+
+import { Client as StableHordeClient } from 'stablehorde';
+
 import { Readable } from 'stream';
 
 class Client {
@@ -54,7 +57,9 @@ class Client {
     file: string | Buffer | Readable,
     options?: Sagiri.Options,
   ) => Promise<Sagiri.SagiriResult[]>;
+
   public craiyon: Craiyon;
+  public stablehorde?: StableHordeClient;
 
   public logger?: Logger;
 
@@ -172,6 +177,12 @@ class Client {
     }
 
     this.craiyon = new Craiyon();
+
+    if (config.stablehorde) {
+      this.stablehorde = new StableHordeClient({
+        apiKey: config.stablehorde.apiKey,
+      });
+    }
   }
 
   async login() {

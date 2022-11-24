@@ -95,4 +95,10 @@ if (process.env.SAUCENAO_API_KEY) {
   };
 }
 
+if (process.env.STABLE_HORDE_API_KEY) {
+  config.stablehorde = {
+    apiKey: process.env.STABLE_HORDE_API_KEY,
+  };
+}
+
 export default config;

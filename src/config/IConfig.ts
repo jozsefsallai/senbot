@@ -44,6 +44,10 @@ export interface SaucenaoConfig {
   apiKey: string;
 }
 
+export interface StableHordeConfig {
+  apiKey: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
@@ -52,4 +56,5 @@ export interface IConfig {
   s3?: S3Config;
   danbooru?: DanbooruConfig;
   saucenao?: SaucenaoConfig;
+  stablehorde?: StableHordeConfig;
 }
