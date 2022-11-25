@@ -38,18 +38,14 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     return;
   }
 
-  await ctx.interaction.deferReply();
+  await ctx.interaction.reply(
+    'Please wait a minute or two while we generate your image!',
+  );
 
   const prompt = ctx.interaction.options.getString('prompt');
   const C = ctx.interaction.options.getNumber('c') || 7.5;
 
   const request = ctx.client.stablehorde.newRequestHandler(2000);
-
-  request.on('created', async (_) => {
-    await ctx.interaction.reply(
-      'Please wait a minute or two while we generate your image!',
-    );
-  });
 
   request.on('error', async (err) => {
     await ctx.interaction.channel!.send({
