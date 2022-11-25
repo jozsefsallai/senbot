@@ -38,6 +38,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     return;
   }
 
+  await ctx.interaction.deferReply();
+
   const prompt = ctx.interaction.options.getString('prompt');
   const C = ctx.interaction.options.getNumber('c') || 7.5;
 
