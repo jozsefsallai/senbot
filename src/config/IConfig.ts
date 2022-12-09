@@ -48,6 +48,10 @@ export interface StableHordeConfig {
   apiKey: string;
 }
 
+export interface ChatGPTConfig {
+  sessionToken: string;
+}
+
 export interface IConfig {
   bot: BotConfig;
   guild: GuildConfig;
@@ -57,4 +61,5 @@ export interface IConfig {
   danbooru?: DanbooruConfig;
   saucenao?: SaucenaoConfig;
   stablehorde?: StableHordeConfig;
+  chatgpt?: ChatGPTConfig;
 }
