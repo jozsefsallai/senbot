@@ -101,10 +101,4 @@ if (process.env.STABLE_HORDE_API_KEY) {
   };
 }
 
-if (process.env.CHATGPT_SESSION_TOKEN) {
-  config.chatgpt = {
-    sessionToken: process.env.CHATGPT_SESSION_TOKEN,
-  };
-}
-
 export default config;

@@ -41,8 +41,6 @@ import sagiriClient from 'sagiri';
 
 import { Client as StableHordeClient } from 'stablehorde';
 
-import { ChatGPTAPI } from 'chatgpt';
-
 import { Readable } from 'stream';
 
 class Client {
@@ -62,8 +60,6 @@ class Client {
 
   public craiyon: Craiyon;
   public stablehorde?: StableHordeClient;
-
-  public chatgpt?: ChatGPTAPI;
 
   public logger?: Logger;
 
@@ -185,12 +181,6 @@ class Client {
     if (config.stablehorde) {
       this.stablehorde = new StableHordeClient({
         apiKey: config.stablehorde.apiKey,
-      });
-    }
-
-    if (config.chatgpt) {
-      this.chatgpt = new ChatGPTAPI({
-        sessionToken: config.chatgpt.sessionToken,
       });
     }
   }
