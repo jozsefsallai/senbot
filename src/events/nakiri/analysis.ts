@@ -60,7 +60,7 @@ const handler = async (client: Client, data: AnalysisNotification) => {
   embed.setTimestamp();
   embed.addField('Channel', message.channel.toString());
   embed.addField('User', `${username}#${discriminator} (${id})`);
-  addLongEmbedField(embed, 'Message', message.content);
+  addLongEmbedField(embed, 'Message', message.content || '(empty message)');
 
   let shouldDelete = false;
 

@@ -85,7 +85,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
         true,
       );
     } else {
-      embed.addField('Author', sauce.authorName, true);
+      embed.addField('Author', sauce.authorName || 'unknown', true);
     }
   }
 
@@ -94,10 +94,10 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 
   if (sauce.site) {
-    embed.addField('Site', sauce.site, true);
+    embed.addField('Site', sauce.site || 'unknown', true);
   }
 
-  embed.addField('URL', sauce.url);
+  embed.addField('URL', sauce.url || 'unknown');
 
   await ctx.interaction.editReply({
     embeds: [embed],

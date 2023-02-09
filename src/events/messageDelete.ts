@@ -26,7 +26,7 @@ const handler = async (
   embed.setTimestamp();
   embed.addField('Channel', message.channel.toString());
   embed.addField('User', `${username}#${discriminator} (${id})`);
-  addLongEmbedField(embed, 'Message', message.content);
+  addLongEmbedField(embed, 'Message', message.content || '(empty message)');
 
   if (message.attachments.size > 0) {
     try {

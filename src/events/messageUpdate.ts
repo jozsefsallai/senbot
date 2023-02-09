@@ -28,8 +28,8 @@ const handler = async (
   embed.setURL(before.url);
   embed.addField('Channel', before.channel.toString());
   embed.addField('User', `${username}#${discriminator} (${id})`);
-  addLongEmbedField(embed, 'Before', before.content);
-  addLongEmbedField(embed, 'After', after.content);
+  addLongEmbedField(embed, 'Before', before.content || '(empty message)');
+  addLongEmbedField(embed, 'After', after.content || '(empty message)');
 
   await client.logger?.logEvent({ embeds: [embed] });
 
