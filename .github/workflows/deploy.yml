@@ -20,4 +20,4 @@ jobs:
       - name: Pull from repository
         run: ssh reisen "cd ~/bots/senbot && git pull origin master"
       - name: Restart Docker Compose service
-        run: ssh reisen "cd ~/bots/senbot && docker-compose up -d"
+        run: ssh reisen "cd ~/bots/senbot && docker-compose up -d --force-recreate --build"
