@@ -1,0 +1,23 @@
+name: SSH deploy
+
+on:
+  push:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.REISEN_SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          config: ${{ secrets.SSH_CONFIG }}
+          if_key_exists: replace
+      - name: Pull from repository
+        run: ssh reisen "cd ~/bots/senbot && git pull origin master"
+      - name: Restart Docker Compose service
+        run: ssh reisen "cd ~/bots/senbot && docker-compose up -d"
