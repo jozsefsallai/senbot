@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@discordjs/rest": "^0.2.0-canary.0",
-    "@discordjs/voice": "^0.8.0",
     "@sentry/node": "^6.17.9",
     "@sentry/tracing": "^6.17.9",
     "aws-sdk": "^2.1163.0",
@@ -42,7 +41,6 @@
     "node-nakiri": "^0.1.6",
     "sagiri": "^3.1.1",
     "sharp": "^0.31.2",
-    "sodium": "^3.0.2",
     "stablehorde": "^1.0.0"
   },
   "devDependencies": {
