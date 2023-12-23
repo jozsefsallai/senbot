@@ -1,4 +1,4 @@
-import { ApplicationCommandPermissionData } from 'discord.js';
+import { ApplicationCommandPermissions } from 'discord.js';
 
 import config from '../config';
 import makeRoleRestrictedCommand from './roleRestrictedCommand';
@@ -10,5 +10,5 @@ export const STAFF_ONLY_ROLES = [
   config.guild.helperRole,
 ];
 
-export const permissions: ApplicationCommandPermissionData[] =
+export const permissions: ApplicationCommandPermissions[] =
   makeRoleRestrictedCommand(STAFF_ONLY_ROLES);

@@ -1,6 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+} from 'discord.js';
 import { EMBED_LIGHT_BLUE } from '../../core/constants';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
@@ -11,7 +14,9 @@ export const meta = new SlashCommandBuilder()
   .setDescription('Send a totally inspirational image.')
   .setDefaultPermission(true);
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   await ctx.interaction.deferReply();
 
   try {
@@ -35,7 +40,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
       url = ctx.client.s3.buildUrl(`inspire/${filename}`);
     }
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle("Here's an AI generated inspirational quote:");
     embed.setColor(EMBED_LIGHT_BLUE);
     embed.setImage(url);

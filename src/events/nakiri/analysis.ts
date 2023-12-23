@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { AnalysisNotification } from 'node-nakiri';
 import Client from '../../core/client';
 import { EMBED_RED } from '../../core/constants';
@@ -53,37 +53,46 @@ const handler = async (client: Client, data: AnalysisNotification) => {
 
   const { username, discriminator, id } = message.author!;
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
 
   embed.setTitle('Positive Nakiri Analysis');
   embed.setColor(EMBED_RED);
   embed.setTimestamp();
-  embed.addField('Channel', message.channel.toString());
-  embed.addField('User', `${username}#${discriminator} (${id})`);
+  embed.addFields({ name: 'Channel', value: message.channel.toString() });
+  embed.addFields({
+    name: 'User',
+    value: `${username}#${discriminator} (${id})`,
+  });
   addLongEmbedField(embed, 'Message', message.content || '(empty message)');
 
   let shouldDelete = false;
 
   if (problematicVideoIDs.length > 0) {
-    embed.addField('Filtered YouTube Videos', problematicVideoIDs.join(', '));
+    embed.addFields({
+      name: 'Filtered YouTube Videos',
+      value: problematicVideoIDs.join(', '),
+    });
   }
 
   if (problematicChannelIDs.length > 0) {
-    embed.addField(
-      'Filtered YouTube Channels',
-      problematicChannelIDs.join(', '),
-    );
+    embed.addFields({
+      name: 'Filtered YouTube Channels',
+      value: problematicChannelIDs.join(', '),
+    });
   }
 
   if (problematicDiscordInvites.length > 0) {
-    embed.addField(
-      'Filtered Discord Invites',
-      problematicDiscordInvites.join(', '),
-    );
+    embed.addFields({
+      name: 'Filtered Discord Invites',
+      value: problematicDiscordInvites.join(', '),
+    });
   }
 
   if (problematicLinks.length > 0) {
-    embed.addField('Filtered URLs', problematicLinks.join(', '));
+    embed.addFields({
+      name: 'Filtered URLs',
+      value: problematicLinks.join(', '),
+    });
   }
 
   if (problematicPhrases.length > 0) {
@@ -100,11 +109,11 @@ const handler = async (client: Client, data: AnalysisNotification) => {
       const maxPhrase = problematicPhrases.find(
         (e) => e.similarity === maxPhraseSimilarity,
       );
-      embed.addField('Matched and Filtered Phrases', phrases);
+      embed.addFields({ name: 'Matched and Filtered Phrases', value: phrases });
       shouldDelete =
         !!maxPhrase && !binarySearch(dictionary, maxPhrase.word.toLowerCase());
     } else {
-      embed.addField('Matched Phrases', phrases);
+      embed.addFields({ name: 'Matched Phrases', value: phrases });
     }
   }
 

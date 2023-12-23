@@ -2,8 +2,8 @@ import {
   Client,
   GuildMember,
   Message,
-  MessageEmbed,
-  MessageOptions,
+  EmbedBuilder,
+  MessageCreateOptions,
   MessagePayload,
   PartialGuildMember,
   TextChannel,
@@ -36,7 +36,7 @@ class Logger {
   }
 
   async logEvent(
-    opts: string | MessagePayload | MessageOptions,
+    opts: string | MessagePayload | MessageCreateOptions,
   ): Promise<Message<boolean> | undefined> {
     await this.bootstrap();
 
@@ -59,7 +59,7 @@ class Logger {
 
     const avatar = member.user.avatarURL() ?? member.user.defaultAvatarURL;
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
 
     embed.setTitle(type === 'join' ? 'Member Joined' : 'Member Left');
     embed.setColor(type === 'join' ? EMBED_GREEN : EMBED_RED);
@@ -83,7 +83,10 @@ class Logger {
       return;
     }
 
-    embed.addField('Created at', member.user.createdAt.toISOString());
+    embed.addFields({
+      name: 'Created at',
+      value: member.user.createdAt.toISOString(),
+    });
     return this.logEvent({ embeds: [embed] });
   }
 }

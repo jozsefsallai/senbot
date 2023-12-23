@@ -1,22 +1,23 @@
 import {
-  ApplicationCommandPermissionData,
-  CommandInteraction,
-  ContextMenuInteraction,
+  ApplicationCommandPermissions,
+  ChatInputCommandInteraction,
+  ContextMenuCommandInteraction,
 } from 'discord.js';
 import BaseHandler from './BaseHandler';
 import { HandlerContext } from './IBaseHandler';
 
-export type CommandContext<T = CommandInteraction | ContextMenuInteraction> =
-  HandlerContext<T>;
+export type CommandContext<
+  T = ChatInputCommandInteraction | ContextMenuCommandInteraction,
+> = HandlerContext<T>;
 
 class CommandHandler extends BaseHandler<
-  CommandInteraction | ContextMenuInteraction
+  ChatInputCommandInteraction | ContextMenuCommandInteraction
 > {
-  private permissions: Record<string, ApplicationCommandPermissionData[]> = {};
+  private permissions: Record<string, ApplicationCommandPermissions[]> = {};
 
   public setPermissions(
     command: string,
-    permissions?: ApplicationCommandPermissionData[],
+    permissions?: ApplicationCommandPermissions[],
   ) {
     if (!permissions) {
       return;
@@ -27,7 +28,7 @@ class CommandHandler extends BaseHandler<
 
   public getPermissions(
     command: string,
-  ): ApplicationCommandPermissionData[] | null {
+  ): ApplicationCommandPermissions[] | null {
     if (!this.permissions[command]) {
       return null;
     }

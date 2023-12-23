@@ -1,5 +1,4 @@
-import { ContextMenuCommandBuilder } from '@discordjs/builders';
-import { ApplicationCommandType } from 'discord-api-types/v10';
+import { ApplicationCommandType, ContextMenuCommandBuilder } from 'discord.js';
 
 export const meta = new ContextMenuCommandBuilder()
   .setName('Purge From Here')

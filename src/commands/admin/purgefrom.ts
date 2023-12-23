@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { TextChannel, ThreadChannel } from 'discord.js';
+import { TextChannel, ThreadChannel, SlashCommandBuilder } from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 
@@ -19,11 +18,11 @@ export { permissions } from '../../guards/staffOnlyCommand';
 export const handler = async (ctx: CommandContext) => {
   let id: string | undefined;
 
-  if (ctx.interaction.isMessageContextMenu()) {
+  if (ctx.interaction.isMessageContextMenuCommand()) {
     id = ctx.interaction.targetMessage.id;
   }
 
-  if (ctx.interaction.isCommand()) {
+  if (ctx.interaction.isChatInputCommand()) {
     id = ctx.interaction.options.getString('message')!;
   }
 
@@ -35,7 +34,7 @@ export const handler = async (ctx: CommandContext) => {
 
   if (
     !['GUILD_TEXT', 'GUILD_PRIVATE_THREAD', 'GUILD_PUBLIC_THREAD'].includes(
-      ctx.interaction.channel?.type ?? '',
+      ctx.interaction.channel?.type?.toString() ?? '',
     )
   ) {
     await ctx.interaction.editReply(

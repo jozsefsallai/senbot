@@ -1,11 +1,14 @@
-import { ApplicationCommandPermissionData } from 'discord.js';
+import {
+  ApplicationCommandPermissionType,
+  ApplicationCommandPermissions,
+} from 'discord.js';
 
 const makeRoleRestrictedCommand = (
   roles: string[],
-): ApplicationCommandPermissionData[] =>
+): ApplicationCommandPermissions[] =>
   roles.map((id) => ({
     id,
-    type: 'ROLE',
+    type: ApplicationCommandPermissionType.Role,
     permission: true,
   }));
 

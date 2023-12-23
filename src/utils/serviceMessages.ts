@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import {
   EMBED_GREEN,
   EMBED_LIGHT_BLUE,
@@ -9,7 +9,7 @@ import {
 const logEmbed = (
   level: 'info' | 'error' | 'warn' | 'success',
   input: string | string[],
-): MessageEmbed => {
+): EmbedBuilder => {
   const colors = {
     info: EMBED_LIGHT_BLUE,
     error: EMBED_RED,
@@ -28,20 +28,20 @@ const logEmbed = (
     input = input.join(' ');
   }
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setColor(colors[level]);
   embed.setTitle(titles[level]);
   embed.setDescription(input);
   return embed;
 };
 
-const info = (input: string | string[]): MessageEmbed =>
+const info = (input: string | string[]): EmbedBuilder =>
   logEmbed('info', input);
-const error = (input: string | string[]): MessageEmbed =>
+const error = (input: string | string[]): EmbedBuilder =>
   logEmbed('error', input);
-const warn = (input: string | string[]): MessageEmbed =>
+const warn = (input: string | string[]): EmbedBuilder =>
   logEmbed('warn', input);
-const success = (input: string | string[]): MessageEmbed =>
+const success = (input: string | string[]): EmbedBuilder =>
   logEmbed('success', input);
 
 const UNEXPECTED_ERROR = 'An unexpected error happened.';

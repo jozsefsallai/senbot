@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
+import { SlashCommandBuilder } from 'discord.js';
 import { CommandContext } from '../core/handler/CommandHandler';
 
 export const meta = new SlashCommandBuilder()

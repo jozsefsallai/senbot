@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, PartialMessage } from 'discord.js';
+import { Message, EmbedBuilder, PartialMessage } from 'discord.js';
 import Client from '../core/client';
 import { EMBED_LIGHT_BLUE } from '../core/constants';
 import analyzeMessage from '../utils/analyzeMessage';
@@ -21,13 +21,16 @@ const handler = async (
 
   const { id, username, discriminator } = before.author!;
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setTitle('Message Edit Log');
   embed.setColor(EMBED_LIGHT_BLUE);
   embed.setTimestamp();
   embed.setURL(before.url);
-  embed.addField('Channel', before.channel.toString());
-  embed.addField('User', `${username}#${discriminator} (${id})`);
+  embed.addFields({ name: 'Channel', value: before.channel.toString() });
+  embed.addFields({
+    name: 'User',
+    value: `${username}#${discriminator} (${id})`,
+  });
   addLongEmbedField(embed, 'Before', before.content || '(empty message)');
   addLongEmbedField(embed, 'After', after.content || '(empty message)');
 

@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 
@@ -35,7 +34,9 @@ export const meta = new SlashCommandBuilder()
       .setDescription('Whether to show the plaintext grid in a code block.'),
   ) as SlashCommandBuilder;
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const rows = ctx.interaction.options.getInteger('rows') ?? 9;
   const columns = ctx.interaction.options.getInteger('columns') ?? 9;
   const mines = ctx.interaction.options.getInteger('mines') ?? 10;

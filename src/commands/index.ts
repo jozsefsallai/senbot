@@ -1,9 +1,9 @@
-import { ApplicationCommandPermissionData } from 'discord.js';
 import {
+  ApplicationCommandPermissions,
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
   ContextMenuCommandBuilder,
-} from '@discordjs/builders';
+} from 'discord.js';
 import { CommandContext } from '../core/handler/CommandHandler';
 
 import * as ping from './ping';
@@ -32,7 +32,7 @@ interface CommandData {
     | SlashCommandSubcommandsOnlyBuilder
     | ContextMenuCommandBuilder;
   handler: (ctx: CommandContext<any>) => void | Promise<void>;
-  permissions?: ApplicationCommandPermissionData[];
+  permissions?: ApplicationCommandPermissions[];
 }
 
 const commands: CommandData[] = [

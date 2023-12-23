@@ -1,9 +1,9 @@
-import { ApplicationCommandPermissionData } from 'discord.js';
+import { ApplicationCommandPermissions } from 'discord.js';
 
 import config from '../config';
 import makeRoleRestrictedCommand from './roleRestrictedCommand';
 
-export const permissions: ApplicationCommandPermissionData[] =
+export const permissions: ApplicationCommandPermissions[] =
   makeRoleRestrictedCommand([
     config.guild.ownerRole,
     config.guild.adminRole,

@@ -1,5 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, SnowflakeUtil } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SnowflakeUtil,
+  SlashCommandBuilder,
+} from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 
@@ -33,7 +36,9 @@ export const meta = new SlashCommandBuilder()
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const snowflake = ctx.interaction.options.getString('snowflake')!;
   const confirm = ctx.interaction.options.getBoolean('confirm') ?? false;
   const reason = ctx.interaction.options.getString('reason');

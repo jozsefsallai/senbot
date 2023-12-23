@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from 'discord.js';
+import { GuildMember, EmbedBuilder } from 'discord.js';
 import { EMBED_ORANGE } from '../../core/constants';
 import { ButtonContext } from '../../core/handler/ButtonHandler';
 import { STAFF_ONLY_ROLES } from '../../guards/staffOnlyCommand';
@@ -44,7 +44,7 @@ export const handler = async (ctx: ButtonContext) => {
   }
 
   try {
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle('⏳ Asking additional questions...');
     embed.setDescription(
       `The request of user ${member.toString()} is being processed by ${ctx.interaction.user.toString()}. Waiting for additional information from the user.`,

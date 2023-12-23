@@ -1,4 +1,4 @@
-FROM node:16.3.0
+FROM node:18.16.0
 
 RUN apt update && apt install -y \
     build-essential \
@@ -9,12 +9,15 @@ RUN apt update && apt install -y \
     librsvg2-dev
 
 WORKDIR /bot
-COPY package*.json ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
 
-RUN npm install
+RUN npm install -g pnpm
+
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
-CMD [ "npm", "start" ]
+CMD [ "pnpm", "start" ]

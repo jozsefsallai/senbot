@@ -1,5 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+} from 'discord.js';
 import config from '../../config';
 import { EMBED_LIGHT_BLUE } from '../../core/constants';
 
@@ -26,7 +29,9 @@ export const meta = new SlashCommandBuilder()
   )
   .setDefaultPermission(true);
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   await ctx.interaction.deferReply();
 
   const plain = ctx.interaction.options.getBoolean('plain') ?? false;
@@ -71,17 +76,24 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     }
 
     const image = images[0];
-
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
 
     embed.setTitle("Here's a catgirl for you:");
 
     if (!plain) {
-      embed.addField('Score', image.score.toString(), true);
-      embed.addField('Favorite count', image.fav_count.toString(), true);
+      embed.addFields({
+        name: 'Score',
+        value: image.score.toString(),
+        inline: true,
+      });
+      embed.addFields({
+        name: 'Favorite count',
+        value: image.fav_count.toString(),
+        inline: true,
+      });
 
       if (image.source) {
-        embed.addField('Source', image.source);
+        embed.addFields({ name: 'Source', value: image.source });
       }
     }
 

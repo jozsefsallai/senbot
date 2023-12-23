@@ -1,5 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, TextBasedChannel } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  TextBasedChannel,
+  SlashCommandBuilder,
+} from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 import { error } from '../../utils/serviceMessages';
@@ -30,7 +33,9 @@ const startTyping = async (channel: TextBasedChannel, message: string) => {
   await sleep(typingTime);
 };
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const message = ctx.interaction.options.getString('message')!;
   const replyTo = ctx.interaction.options.getString('replyto');
 

@@ -1,10 +1,10 @@
 import config from '../config';
 
 import {
-  AnyChannel,
+  Channel,
   Client as Discord,
   GuildMember,
-  Intents,
+  IntentsBitField,
   Message,
   TextChannel,
 } from 'discord.js';
@@ -66,11 +66,11 @@ class Client {
   constructor() {
     this.client = new Discord({
       intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MEMBERS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-        Intents.FLAGS.GUILD_VOICE_STATES,
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.GuildMessageReactions,
+        IntentsBitField.Flags.GuildVoiceStates,
       ],
     });
 
@@ -91,7 +91,10 @@ class Client {
     this.modalHandler = new ModalHandler();
 
     this.client.on('interactionCreate', async (interaction) => {
-      if (interaction.isCommand() || interaction.isContextMenu()) {
+      if (
+        interaction.isChatInputCommand() ||
+        interaction.isContextMenuCommand()
+      ) {
         await this.commandHandler.emit(interaction.commandName, {
           interaction,
           client: this,
@@ -271,7 +274,7 @@ class Client {
         'GUILD_PRIVATE_THREAD',
         'GUILD_PUBLIC_THREAD',
         'GUILD_TEXT',
-      ].includes(channel.type)
+      ].includes(channel.type?.toString())
     ) {
       return;
     }
@@ -279,7 +282,7 @@ class Client {
     return (channel as TextChannel).messages.fetch(messageId);
   }
 
-  public async getChannelWithId(channelId: string): Promise<AnyChannel | null> {
+  public async getChannelWithId(channelId: string): Promise<Channel | null> {
     return this.client.channels.fetch(channelId);
   }
 

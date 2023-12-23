@@ -1,6 +1,5 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { ActivityType } from 'discord-api-types/v10';
-import { CommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 
@@ -36,7 +35,9 @@ export const meta = new SlashCommandBuilder()
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const text = ctx.interaction.options.getString('text')!;
   const type: ActivityType =
     ctx.interaction.options.getInteger('type') ?? ActivityType.Playing;

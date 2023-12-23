@@ -1,15 +1,15 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 
 const __TRUNCATE_LENGTH = 1024;
 
 export const addLongEmbedField = (
-  embed: MessageEmbed,
+  embed: EmbedBuilder,
   name: string,
   value: string | null,
   inline: boolean = false,
 ) => {
   if (!value || value.length <= __TRUNCATE_LENGTH) {
-    embed.addField(name, value || '', inline);
+    embed.addFields({ name, value: value || '', inline });
     return;
   }
 
@@ -20,6 +20,6 @@ export const addLongEmbedField = (
       (i + 1) * __TRUNCATE_LENGTH,
     );
     const localName = i === 0 ? name : `${name} (cont'd)`;
-    embed.addField(localName, substring || '(empty)', inline);
+    embed.addFields({ name: localName, value: substring || '(empty)', inline });
   }
 };

@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from 'discord.js';
+import { GuildMember, EmbedBuilder } from 'discord.js';
 
 import config from '../../config';
 import { EMBED_GREEN } from '../../core/constants';
@@ -46,7 +46,7 @@ export const handler = async (ctx: ButtonContext) => {
   try {
     await member.roles.add(config.guild.membersRole);
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle('✅ User approved successfully.');
     embed.setDescription(
       `User ${member.toString()} has been approved by ${ctx.interaction.user.toString()}.`,
@@ -65,7 +65,7 @@ export const handler = async (ctx: ButtonContext) => {
   try {
     const dm = await member.createDM();
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle('✅ Membership approved!');
     embed.setColor(EMBED_GREEN);
 

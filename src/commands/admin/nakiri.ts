@@ -1,8 +1,8 @@
 import {
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   SlashCommandIntegerOption,
-} from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
+} from 'discord.js';
 import {
   NakiriHTTPAddDiscordGuildEntryRequest,
   NakiriHTTPAddLinkPatternEntryRequest,
@@ -115,11 +115,11 @@ export const meta = new SlashCommandBuilder()
       )
       .addIntegerOption(targetOption)
       .addIntegerOption(severityOption),
-  );
+  ) as SlashCommandBuilder;
 
 export { permissions } from '../../guards/modOnlyCommand';
 
-const getCommonOptions = (ctx: CommandContext<CommandInteraction>) => {
+const getCommonOptions = (ctx: CommandContext<ChatInputCommandInteraction>) => {
   const target: EntryTarget =
     ctx.interaction.options.getInteger('target') ?? EntryTarget.GUILD;
   const severity: Severity =
@@ -132,7 +132,9 @@ const getCommonOptions = (ctx: CommandContext<CommandInteraction>) => {
   };
 };
 
-const videoHandler = async (ctx: CommandContext<CommandInteraction>) => {
+const videoHandler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const videoId = ctx.interaction.options.getString('videoid');
   const { global, guild, severity } = getCommonOptions(ctx);
 
@@ -155,7 +157,9 @@ const videoHandler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 };
 
-const channelHandler = async (ctx: CommandContext<CommandInteraction>) => {
+const channelHandler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const channelId = ctx.interaction.options.getString('channelid');
   const { global, guild, severity } = getCommonOptions(ctx);
 
@@ -178,7 +182,9 @@ const channelHandler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 };
 
-const linkPatternHandler = async (ctx: CommandContext<CommandInteraction>) => {
+const linkPatternHandler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const linkPattern = ctx.interaction.options.getString('pattern');
   const { global, guild, severity } = getCommonOptions(ctx);
 
@@ -201,7 +207,9 @@ const linkPatternHandler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 };
 
-const discordGuildHandler = async (ctx: CommandContext<CommandInteraction>) => {
+const discordGuildHandler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const guildId = ctx.interaction.options.getString('guildid');
   const name = ctx.interaction.options.getString('name');
 
@@ -227,7 +235,9 @@ const discordGuildHandler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 };
 
-const phraseHandler = async (ctx: CommandContext<CommandInteraction>) => {
+const phraseHandler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const phrase = ctx.interaction.options.getString('phrase');
   const { global, guild, severity } = getCommonOptions(ctx);
 
@@ -250,7 +260,9 @@ const phraseHandler = async (ctx: CommandContext<CommandInteraction>) => {
   }
 };
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   if (!ctx.client.nakiri) {
     await ctx.interaction.reply(
       'Cannot use Nakiri endpoints because Nakiri is not configured.',

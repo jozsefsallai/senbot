@@ -1,5 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+} from 'discord.js';
 import { EMBED_LIGHT_BLUE } from '../../core/constants';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
@@ -16,7 +19,9 @@ export const meta = new SlashCommandBuilder()
   )
   .setDefaultPermission(true);
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   await ctx.interaction.deferReply();
 
   if (!ctx.client.sagiri) {
@@ -44,11 +49,8 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
     item = url;
   }
 
-  if (
-    image &&
-    (typeof image.attachment === 'string' || image.attachment instanceof Buffer)
-  ) {
-    item = image.attachment;
+  if (image) {
+    item = image.url;
   }
 
   if (!item) {
@@ -71,7 +73,7 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
 
   const sauce = sources[0];
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   embed.setColor(EMBED_LIGHT_BLUE);
   embed.setTitle('Source found!');
   embed.setURL(sauce.url);
@@ -79,25 +81,37 @@ export const handler = async (ctx: CommandContext<CommandInteraction>) => {
 
   if (sauce.authorName) {
     if (sauce.authorUrl) {
-      embed.addField(
-        'Author',
-        `[${sauce.authorName}](${sauce.authorUrl})`,
-        true,
-      );
+      embed.addFields({
+        name: 'Author',
+        value: `[${sauce.authorName}](${sauce.authorUrl})`,
+        inline: true,
+      });
     } else {
-      embed.addField('Author', sauce.authorName || 'unknown', true);
+      embed.addFields({
+        name: 'Author',
+        value: sauce.authorName || 'unknown',
+        inline: true,
+      });
     }
   }
 
   if (sauce.similarity) {
-    embed.addField('Similarity', `${sauce.similarity}%`, true);
+    embed.addFields({
+      name: 'Similarity',
+      value: `${sauce.similarity}%`,
+      inline: true,
+    });
   }
 
   if (sauce.site) {
-    embed.addField('Site', sauce.site || 'unknown', true);
+    embed.addFields({
+      name: 'Site',
+      value: sauce.site || 'unknown',
+      inline: true,
+    });
   }
 
-  embed.addField('URL', sauce.url || 'unknown');
+  embed.addFields({ name: 'URL', value: sauce.url || 'unknown' });
 
   await ctx.interaction.editReply({
     embeds: [embed],

@@ -1,5 +1,9 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction, TextChannel, ThreadChannel } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  TextChannel,
+  ThreadChannel,
+  SlashCommandBuilder,
+} from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
 
@@ -18,14 +22,16 @@ export const meta = new SlashCommandBuilder()
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   const count = ctx.interaction.options.getInteger('count')!;
 
   await ctx.interaction.deferReply({ ephemeral: true });
 
   if (
     !['GUILD_TEXT', 'GUILD_PRIVATE_THREAD', 'GUILD_PUBLIC_THREAD'].includes(
-      ctx.interaction.channel?.type ?? '',
+      ctx.interaction.channel?.type?.toString() ?? '',
     )
   ) {
     await ctx.interaction.editReply(

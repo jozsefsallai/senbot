@@ -1,10 +1,11 @@
 import {
   GuildMember,
-  MessageActionRow,
-  MessageEmbed,
-  Modal,
-  ModalActionRowComponent,
-  TextInputComponent,
+  ActionRowBuilder,
+  EmbedBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ModalActionRowComponentBuilder,
 } from 'discord.js';
 import { EMBED_RED } from '../../core/constants';
 import { ModalContext } from '../../core/handler/ModalHandler';
@@ -60,7 +61,7 @@ export const handler = async (ctx: ModalContext) => {
 
   const reason = ctx.interaction.fields.getTextInputValue(FieldNames.Reason);
 
-  let embed = new MessageEmbed();
+  let embed = new EmbedBuilder();
   embed.setTitle('❌ Membership request denied.');
   embed.setColor(EMBED_RED);
   embed.setDescription(
@@ -68,7 +69,7 @@ export const handler = async (ctx: ModalContext) => {
   );
 
   if (reason) {
-    embed.addField('Reason', reason);
+    embed.addFields({ name: 'Reason', value: reason });
   }
 
   try {
@@ -78,7 +79,7 @@ export const handler = async (ctx: ModalContext) => {
     // ignore
   }
 
-  embed = new MessageEmbed();
+  embed = new EmbedBuilder();
   embed.setTitle('✅ User denied successfully.');
   embed.setColor(EMBED_RED);
   embed.setDescription(
@@ -86,26 +87,30 @@ export const handler = async (ctx: ModalContext) => {
   );
 
   if (reason) {
-    embed.addField('Reason', reason);
+    embed.addFields({ name: 'Reason', value: reason });
   }
 
   await ctx.interaction.editReply({ embeds: [embed] });
 };
 
-export const generateOnboardingRequestDeniedModal = (userId: string): Modal => {
-  const modal = new Modal();
+export const generateOnboardingRequestDeniedModal = (
+  userId: string,
+): ModalBuilder => {
+  const modal = new ModalBuilder();
   modal.setCustomId(`onboarding-request-denied_${userId}`);
   modal.setTitle('Deny membership request');
 
-  const reasonField = new TextInputComponent()
+  const reasonField = new TextInputBuilder()
     .setCustomId(FieldNames.Reason)
     .setLabel('Reason (optional)')
     .setPlaceholder('Tell the user why they got rejected.')
-    .setStyle('PARAGRAPH')
+    .setStyle(TextInputStyle.Paragraph)
     .setRequired(false);
 
   modal.addComponents(
-    new MessageActionRow<ModalActionRowComponent>().addComponents(reasonField),
+    new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+      reasonField,
+    ),
   );
 
   return modal;

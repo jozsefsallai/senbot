@@ -1,4 +1,4 @@
-import { MessageEmbed, TextChannel } from 'discord.js';
+import { Embed, EmbedBuilder, TextChannel } from 'discord.js';
 import config from '../config';
 import Client from '../core/client';
 
@@ -29,10 +29,16 @@ export const editOnboardingEntry = async ({
 
   const embeds = message.embeds.slice(0);
 
-  let embed: MessageEmbed | undefined;
+  let embed: Embed | undefined;
 
   if (embeds.length > 0) {
     embed = embeds[0];
+  }
+
+  let newEmbed: EmbedBuilder | undefined;
+
+  if (embed) {
+    newEmbed = new EmbedBuilder(embed.toJSON());
 
     const fields = embed.fields.slice(0);
 
@@ -40,13 +46,10 @@ export const editOnboardingEntry = async ({
       fields[0].value = status;
     }
 
-    embed.setFields(fields);
+    newEmbed.setFields(fields);
   }
 
-  const newEmbeds: MessageEmbed[] = [];
-  if (embed) {
-    newEmbeds.push(embed);
-  }
+  const newEmbeds = newEmbed ? [newEmbed] : [];
 
   const components = removeButtons ? [] : message.components.slice(0);
 

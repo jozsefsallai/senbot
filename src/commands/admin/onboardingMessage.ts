@@ -1,9 +1,10 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import {
-  CommandInteraction,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
+  ChatInputCommandInteraction,
+  ActionRowBuilder,
+  ButtonBuilder,
+  EmbedBuilder,
+  ButtonStyle,
+  SlashCommandBuilder,
 } from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
@@ -15,20 +16,22 @@ export const meta = new SlashCommandBuilder()
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
-export const handler = async (ctx: CommandContext<CommandInteraction>) => {
+export const handler = async (
+  ctx: CommandContext<ChatInputCommandInteraction>,
+) => {
   await ctx.interaction.deferReply({ ephemeral: true });
 
   try {
-    const button = new MessageButton();
+    const button = new ButtonBuilder();
     button
       .setCustomId('onboarding')
       .setLabel('Answer questions')
-      .setStyle('PRIMARY');
+      .setStyle(ButtonStyle.Primary);
 
-    const componentRow = new MessageActionRow();
+    const componentRow = new ActionRowBuilder<ButtonBuilder>();
     componentRow.addComponents(button);
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle('Welcome to the Senzawa Fan Discord!');
     embed.setDescription(
       [
