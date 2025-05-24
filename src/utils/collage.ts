@@ -1,4 +1,4 @@
-import { createCanvas, Canvas, Image } from 'canvas';
+import { createCanvas, Canvas, Image } from '@napi-rs/canvas';
 
 async function buildCollage(
   imgs: Image[],

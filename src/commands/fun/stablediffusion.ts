@@ -81,7 +81,7 @@ export const handler = async (
       '#111827',
     );
 
-    const buffer = collage.toBuffer();
+    const buffer = collage.toBuffer("image/png");
 
     const workers = generations.generations.map((g) => g.workerName);
 

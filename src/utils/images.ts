@@ -1,4 +1,4 @@
-import { Image } from 'canvas';
+import { Image } from '@napi-rs/canvas';
 import sharp from 'sharp';
 
 export async function resizeAndConvertToPNGBuffer(

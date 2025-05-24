@@ -1,4 +1,4 @@
-import { Image } from 'canvas';
+import { Image } from '@napi-rs/canvas';
 import { Client } from 'craiyon';
 import sharp from 'sharp';
 import { buildCollage } from './collage';
@@ -32,7 +32,7 @@ class Craiyon {
       '#111827',
     );
 
-    const buffer = canvas.toBuffer();
+    const buffer = canvas.toBuffer('image/png');
     return buffer;
   }
 
