@@ -1,7 +1,7 @@
 import {
   ChatInputCommandInteraction,
-  TextBasedChannel,
   SlashCommandBuilder,
+  SendableChannels,
 } from 'discord.js';
 
 import { CommandContext } from '../../core/handler/CommandHandler';
@@ -27,7 +27,7 @@ export const meta = new SlashCommandBuilder()
 
 export { permissions } from '../../guards/staffOnlyCommand';
 
-const startTyping = async (channel: TextBasedChannel, message: string) => {
+const startTyping = async (channel: SendableChannels, message: string) => {
   const typingTime = (message.split(' ').length / 2.5) * 1000;
   await channel.sendTyping();
   await sleep(typingTime);
@@ -42,6 +42,13 @@ export const handler = async (
   await ctx.interaction.deferReply({ ephemeral: true });
 
   const channel = ctx.interaction.channel!;
+
+  if (!channel.isSendable()) {
+    await ctx.interaction.editReply({
+      embeds: [error('This channel is not sendable.')],
+    });
+    return;
+  }
 
   if (replyTo) {
     try {

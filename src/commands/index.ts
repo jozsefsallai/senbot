@@ -3,6 +3,7 @@ import {
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
   ContextMenuCommandBuilder,
+  SlashCommandOptionsOnlyBuilder
 } from 'discord.js';
 import { CommandContext } from '../core/handler/CommandHandler';
 
@@ -30,6 +31,7 @@ interface CommandData {
   meta:
     | SlashCommandBuilder
     | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder
     | ContextMenuCommandBuilder;
   handler: (ctx: CommandContext<any>) => void | Promise<void>;
   permissions?: ApplicationCommandPermissions[];

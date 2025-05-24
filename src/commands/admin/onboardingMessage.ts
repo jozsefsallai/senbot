@@ -44,10 +44,12 @@ export const handler = async (
     );
     embed.setColor('#0099ff');
 
-    await ctx.interaction.channel?.send({
-      embeds: [embed],
-      components: [componentRow],
-    });
+    if (ctx.interaction.channel?.isSendable()) {
+      await ctx.interaction.channel.send({
+        embeds: [embed],
+        components: [componentRow],
+      });
+    }
 
     await ctx.interaction.editReply('Onboarding message sent successfully.');
   } catch (err) {

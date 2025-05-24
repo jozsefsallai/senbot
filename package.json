@@ -22,19 +22,20 @@
   },
   "homepage": "https://github.com/jozsefsallai/senbot#readme",
   "engines": {
-    "node": "18.16.0"
+    "node": "20.16.0"
   },
   "dependencies": {
-    "@discordjs/rest": "^2.0.1",
+    "@aws-sdk/client-s3": "^3.529.1",
+    "@aws-sdk/lib-storage": "^3.529.1",
+    "@discordjs/rest": "^2.5.0",
     "@sentry/node": "^6.17.9",
     "@sentry/tracing": "^6.17.9",
-    "aws-sdk": "^2.1163.0",
     "axios": "^0.27.2",
-    "canvas": "^2.9.3",
+    "canvas": "^3.1.0",
     "craiyon": "^1.0.0",
     "dayjs": "^1.11.3",
     "discord-api-types": "^0.33.3",
-    "discord.js": "^14.13.0",
+    "discord.js": "^14.19.3",
     "discord.js-minesweeper": "^1.1.0",
     "dotenv": "^10.0.0",
     "node-fetch": "^2.6.7",
@@ -54,5 +55,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
     "typescript": "^5.3.3"
-  }
+  },
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677"
 }

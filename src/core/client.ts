@@ -71,11 +71,17 @@ class Client {
         IntentsBitField.Flags.GuildMessages,
         IntentsBitField.Flags.GuildMessageReactions,
         IntentsBitField.Flags.GuildVoiceStates,
+        IntentsBitField.Flags.MessageContent,
       ],
     });
 
     if (config.s3) {
-      this.s3 = new S3(config.s3);
+      this.s3 = new S3(config.s3.endpoint, {
+        accessKeyId: config.s3.accessKeyId,
+        secretAccessKey: config.s3.secretAccessKey,
+        region: "us-west-1",
+        bucketName: config.s3.bucket,
+      });
     }
 
     this.logger = new Logger(this.client);

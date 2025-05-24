@@ -19,6 +19,13 @@ export const meta = new SlashCommandBuilder()
 export const handler = async (
   ctx: CommandContext<ChatInputCommandInteraction>,
 ) => {
+  if (!ctx.interaction.channel || !ctx.interaction.channel.isSendable()) {
+    await ctx.interaction.editReply({
+      content: 'This channel is not sendable. Please try another channel.',
+    });
+    return;
+  }
+
   await ctx.interaction.reply(
     'Please wait a minute or two while Craiyon generates your image!',
   );
@@ -33,14 +40,14 @@ export const handler = async (
       name: 'craiyon.png',
     });
 
-    await ctx.interaction.channel!.send({
+    await ctx.interaction.channel.send({
       files: [attachment],
       content: message,
     });
   } catch (err) {
     ctx.client.reportToSentry(err);
 
-    await ctx.interaction.channel!.send({
+    await ctx.interaction.channel.send({
       content: `${ctx.interaction.user} Something went wrong while trying to generate your image. Prompt was: \`${prompt}\``,
     });
   }

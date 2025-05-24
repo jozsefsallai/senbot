@@ -2,6 +2,7 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
   AttachmentBuilder,
+  SendableChannels,
 } from 'discord.js';
 import { CommandContext } from '../../core/handler/CommandHandler';
 import { buildCollage } from '../../utils/collage';
@@ -43,6 +44,13 @@ export const handler = async (
     return;
   }
 
+  if (!ctx.interaction.channel || !ctx.interaction.channel.isSendable()) {
+    await ctx.interaction.editReply({
+      content: 'This channel is not sendable. Please try another channel.',
+    });
+    return;
+  }
+
   await ctx.interaction.reply(
     'Please wait a minute or two while we generate your image!',
   );
@@ -53,7 +61,7 @@ export const handler = async (
   const request = ctx.client.stablehorde.newRequestHandler(2000);
 
   request.on('error', async (err) => {
-    await ctx.interaction.channel!.send({
+    await (ctx.interaction.channel as SendableChannels).send({
       content: `${ctx.interaction.user} Something went wrong while trying to generate your image. Prompt was: \`${prompt}\``,
     });
 
@@ -86,7 +94,7 @@ export const handler = async (
       name: 'stablediffusion.png',
     });
 
-    await ctx.interaction.channel!.send({
+    await (ctx.interaction.channel as SendableChannels).send({
       content: message,
       files: [attachment],
     });

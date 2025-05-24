@@ -35,7 +35,11 @@ export const handler = async (
       const image = Buffer.from(imageResponse.data, 'binary');
       const filename = url.split('/').pop();
 
-      await ctx.client.s3.upload(`inspire/${filename}`, image);
+      await ctx.client.s3.upload({
+        key: `inspire/${filename}`,
+        data: image,
+        isPublic: true,
+      });
 
       url = ctx.client.s3.buildUrl(`inspire/${filename}`);
     }
