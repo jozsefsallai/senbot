@@ -1,13 +1,6 @@
 FROM node:20.16.0
 
-RUN apt update && apt install -y \
-    build-essential \
-    g++ \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libgif-dev \
-    librsvg2-dev
+RUN apt update && apt install -y build-essential g++
 
 WORKDIR /bot
 COPY package.json ./
